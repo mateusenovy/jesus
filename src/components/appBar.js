@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { Drawer, AppBar, MenuItem } from 'material-ui';
+import { Link } from 'react-router';
 
 export default class AppBarComponent extends Component {
 
@@ -44,11 +45,12 @@ export default class AppBarComponent extends Component {
                     open={this.state.openDrawer}
                     onRequestChange={this.setDrawerState.bind(this)}
                 >
-                    <MenuItem onTouchTap={this.closeDrawer.bind(this)}>Organização</MenuItem>
-                    <MenuItem onTouchTap={this.closeDrawer.bind(this)}>Congregação</MenuItem>
-                    <MenuItem onTouchTap={this.closeDrawer.bind(this)}>Rede</MenuItem>
-                    <MenuItem onTouchTap={this.closeDrawer.bind(this)}>Célula</MenuItem>
+                    <Link to="organization"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Organização</MenuItem></Link>
+                    <Link to="congregation"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Congregação</MenuItem></Link>
+                    <Link to="grid"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Rede</MenuItem></Link>
+                    <Link to="cell"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Célula</MenuItem></Link>
                 </Drawer>
+                {this.props.children}
             </div>
         );
     }

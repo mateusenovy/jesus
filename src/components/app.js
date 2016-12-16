@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 import { MuiThemeProvider } from 'material-ui/styles';
 import Theme from './theme';
-import AppBar from './appBar';
+import Routers from './routers';
 
 export default class ThemeComponent extends Component {
    render() {
        return(
            <MuiThemeProvider muiTheme={Theme}>
-               <AppBar />
+               <Routers />
            </MuiThemeProvider>
        );
    }

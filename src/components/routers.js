@@ -1,0 +1,25 @@
+import React, { Component } from 'react';
+
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import AppBar from './appBar';
+import Congregation from '../congregation/congregation';
+import Grid from '../grid/grid';
+import Organization from '../organization/organization';
+import Cell from '../cell/cell';
+
+export default class Routers extends Component {
+
+    render() {
+        return(
+            <Router history={hashHistory}>
+                <Route path="/" component={AppBar}>
+                    <IndexRoute component={Grid}></IndexRoute>
+                    <Route path="congregation" component={Congregation}></Route>
+                    <Route path="grid" component={Grid}></Route>
+                    <Route path="organization" component={Organization}></Route>
+                    <Route path="cell" component={Cell}></Route>
+                </Route>
+            </Router>
+        );
+    }
+}
