@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { Router, Route, hashHistory } from 'react-router';
 import AppBar from './appBar';
 import Congregation from '../congregation/congregation';
 import Grid from '../grid/grid';
@@ -13,7 +13,6 @@ export default class Routers extends Component {
         return(
             <Router history={hashHistory}>
                 <Route path="/" component={AppBar}>
-                    <IndexRoute component={Grid}></IndexRoute>
                     <Route path="congregation" component={Congregation}></Route>
                     <Route path="grid" component={Grid}></Route>
                     <Route path="organization" component={Organization}></Route>
