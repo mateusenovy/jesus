@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import OrganizationList from './organizationList';
-import FloatButton from '../components/floatButton';
+import OrganizationFloatButton from './organizationFloatButton';
 
 export default class OrganizationComponent extends Component {
 
@@ -12,16 +12,9 @@ export default class OrganizationComponent extends Component {
         }
     }
 
-    eventClick() {
-        this.setState({showForm: true, iconOnFloat: 'confirm'});
-    }
-
-    handleOnClickSave() {
-        console.debug('save');
-    }
-
-    handleOnClickCancel() {
-        console.debug('cancel');
+    handleClick() {
+        console.debug('changed');
+        this.setState({showForm: true});
     }
 
     render() {
@@ -34,12 +27,7 @@ export default class OrganizationComponent extends Component {
         return(
             <div>
                 {component}
-                <FloatButton
-                    icon={this.state.iconOnFloat}
-                    handleOnClickNew={this.eventClick.bind(this)}
-                    handleOnClickSave={this.handleOnClickSave.bind(this)}
-                    handleOnClickCancel={this.handleOnClickCancel.bind(this)}
-                />
+                <OrganizationFloatButton handleClick={this.handleClick.bind(this)} />
             </div>
         );
     }
