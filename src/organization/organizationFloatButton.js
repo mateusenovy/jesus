@@ -12,23 +12,26 @@ export default class OrganizationFloatButton extends Component {
         }
     }
 
+    handleClick(eventName, showSaveAndCancel) {
+        this.props.handleClick(eventName);
+        this.setState({'showSaveAndCancel': showSaveAndCancel});
+    }
+
     handleOnClickNew() {
-        this.setState({showSaveAndCancel: true});
+        this.handleClick('new', true);
     }
 
     handleOnClickConfirm() {
-        console.debug('confirm');
+        this.handleClick('confirm', false);
     }
 
     handleOnClickCancel() {
-        console.debug('cancel');
-        this.setState({showSaveAndCancel: false});
+        this.handleClick('cancel', false);
     }
 
     render() {
         return(
-            <div
-                onClick={this.props.handleClick} >
+            <div>
                 <FloatButton
                     showSaveAndCancel={this.state.showSaveAndCancel}
                     handleOnClickNew={this.handleOnClickNew.bind(this)}

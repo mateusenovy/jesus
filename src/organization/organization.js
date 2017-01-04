@@ -12,9 +12,9 @@ export default class OrganizationComponent extends Component {
         }
     }
 
-    handleClick() {
-        console.debug('changed');
-        this.setState({showForm: true});
+    handleClick(eventName) {
+        var showForm = (eventName === 'new');
+        this.setState({'showForm': showForm});
     }
 
     render() {
