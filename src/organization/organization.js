@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import OrganizationList from './organizationList';
 import OrganizationFloatButton from './organizationFloatButton';
+import C from '../constants';
 
 export default class OrganizationComponent extends Component {
 
@@ -13,7 +14,7 @@ export default class OrganizationComponent extends Component {
     }
 
     handleClick(eventName) {
-        var showForm = (eventName === 'new');
+        var showForm = (eventName === C.ORG_ACTION_BUTTON_NEW);
         this.setState({'showForm': showForm});
     }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import FloatButton from '../components/floatButton/';
+import C from '../constants';
 
 export default class OrganizationFloatButton extends Component {
 
@@ -18,15 +19,15 @@ export default class OrganizationFloatButton extends Component {
     }
 
     handleOnClickNew() {
-        this.handleClick('new', true);
+        this.handleClick(C.ORG_ACTION_BUTTON_NEW, true);
     }
 
     handleOnClickConfirm() {
-        this.handleClick('confirm', false);
+        this.handleClick(C.ORG_ACTION_BUTTON_CONFIRM, false);
     }
 
     handleOnClickCancel() {
-        this.handleClick('cancel', false);
+        this.handleClick(C.ORG_ACTION_BUTTON_CANCEL, false);
     }
 
     render() {
