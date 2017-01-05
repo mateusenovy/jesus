@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import OrganizationList from './organizationList';
 import OrganizationFloatButton from './organizationFloatButton';
 import C from '../constants';
+import * as OrganizationActions from './organizationActions';
+// import OrganizationStore from './organizationStore';
 
 export default class OrganizationComponent extends Component {
 
@@ -11,6 +13,10 @@ export default class OrganizationComponent extends Component {
         this.state = {
             showForm: false
         }
+    }
+
+    componentDidMount() {
+        OrganizationActions.findOrgOnce();
     }
 
     handleClick(eventName) {

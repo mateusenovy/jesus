@@ -1,7 +1,34 @@
 import React, { Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui';
+// import * as OrganizationActions from './organizationActions';
+import OrganizationStore from './organizationStore';
 
 export default class OrganizationComponent extends Component {
+
+    constructor() {
+        super();
+
+        this.state = {
+            organizations: []
+        };
+
+        this.findOrganizations = this.findOrganizations.bind(this);
+    }
+
+    findOrganizations() {
+        this.setState({
+            organizations: OrganizationStore.findOrg()
+        });
+    }
+
+    componentWillMount() {
+        OrganizationStore.on('change', this.findOrganizations);
+    }
+
+    componentWillUnmount() {
+        OrganizationStore.removeListener('change', this.findOrganizations);
+    }
+
     render() {
         let table, tableBody = <TableBody></TableBody>;
 
@@ -9,18 +36,16 @@ export default class OrganizationComponent extends Component {
             <TableHeader displaySelectAll={false}>
                 <TableRow>
                     <TableHeaderColumn>Descição</TableHeaderColumn>
-                    <TableHeaderColumn>Telefone Principal</TableHeaderColumn>
                 </TableRow>
             </TableHeader>
         ;
 
-        if (false) {
+        if (true) {
             tableBody =
-                <TableBody>
-                    {this.state.users.map( (row, index) =>
+                <TableBody displayRowCheckbox={false} >
+                    {this.state.organizations.map( (row, index) =>
                         <TableRow key={index}>
                             <TableRowColumn>{row.description}</TableRowColumn>
-                            <TableRowColumn>{row.principalPhone}</TableRowColumn>
                         </TableRow>
                     )}
                 </TableBody>
