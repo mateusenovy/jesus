@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui';
 // import * as OrganizationActions from './organizationActions';
 import OrganizationStore from './organizationStore';
+import OrganizationFloatButton from './organizationFloatButton';
 
 export default class OrganizationComponent extends Component {
 
@@ -9,7 +10,7 @@ export default class OrganizationComponent extends Component {
         super();
 
         this.state = {
-            organizations: []
+            organizations: OrganizationStore.findOrg()
         };
 
         this.findOrganizations = this.findOrganizations.bind(this);
@@ -30,7 +31,8 @@ export default class OrganizationComponent extends Component {
     }
 
     render() {
-        let table, tableBody = <TableBody></TableBody>;
+        let table,
+            tableBody = <TableBody></TableBody>;
 
         const TABLE_HEADER =
             <TableHeader displaySelectAll={false}>
@@ -40,17 +42,15 @@ export default class OrganizationComponent extends Component {
             </TableHeader>
         ;
 
-        if (true) {
-            tableBody =
-                <TableBody displayRowCheckbox={false} >
-                    {this.state.organizations.map( (row, index) =>
-                        <TableRow key={index}>
-                            <TableRowColumn>{row.description}</TableRowColumn>
-                        </TableRow>
-                    )}
-                </TableBody>
-            ;
-        }
+        tableBody =
+            <TableBody displayRowCheckbox={false} >
+                {this.state.organizations.map( (row, index) =>
+                    <TableRow key={index}>
+                        <TableRowColumn>{row.description}</TableRowColumn>
+                    </TableRow>
+                )}
+            </TableBody>
+        ;
 
         table =
             <Table>
@@ -62,6 +62,7 @@ export default class OrganizationComponent extends Component {
         return (
             <div>
                 {table}
+                <OrganizationFloatButton handleOnClick={this.props.handleOnClickNew}/>
             </div>
         )
     }

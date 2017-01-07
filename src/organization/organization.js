@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import OrganizationList from './organizationList';
-import OrganizationFloatButton from './organizationFloatButton';
+import OrganizationForm from './organizationForm';
 import C from '../constants';
 import * as OrganizationActions from './organizationActions';
 // import OrganizationStore from './organizationStore';
@@ -25,16 +25,15 @@ export default class OrganizationComponent extends Component {
     }
 
     render() {
-        let component = <OrganizationList />;
+        let component = <OrganizationList handleOnClickNew={this.handleClick.bind(this)} />;
 
         if (this.state.showForm) {
-            component = <h1>Show form</h1>
+            component = <OrganizationForm handleOnClickNew={this.handleClick.bind(this)} />
         }
 
         return(
             <div>
                 {component}
-                <OrganizationFloatButton handleClick={this.handleClick.bind(this)} />
             </div>
         );
     }

@@ -16,7 +16,7 @@ const style = {
 export default class FloatButton extends Component {
 
     render() {
-        const showSaveAndCancel = this.props.showSaveAndCancel;
+        const showSaveAndCancel = this.props.showSaveAndCancel || false;
 
         let buttonComponent = <NewFloatButton style={style} handleOnClickNew={this.props.handleOnClickNew} />;
 

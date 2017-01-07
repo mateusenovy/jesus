@@ -40,13 +40,13 @@ class OrganizationStore extends EventEmitter {
     handleActions(action) {
         switch (action.type) {
             case C.ACTION_CREATE_ORG:
-                this.createOrg(action.firstName, action.lastName, action.email);
+                this.createOrg(action.description);
             break;
             case C.ACTION_UPDATE_ORG:
-                this.updateOrg(action.firstName, action.lastName, action.email);
+                this.updateOrg(action.id, action.description);
             break;
             case C.ACTION_DELETE_ORG:
-                this.deleteOrg(action.firstName, action.lastName, action.email);
+                this.deleteOrg(action.id);
             break;
             case C.ACTION_FIND_ORG:
                 this.findOrg();
