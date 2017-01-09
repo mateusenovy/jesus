@@ -28,7 +28,7 @@ export default class OrganizationComponent extends Component {
         let component = <OrganizationList handleOnClickNew={this.handleClick.bind(this)} />;
 
         if (this.state.showForm) {
-            component = <OrganizationForm handleOnClickNew={this.handleClick.bind(this)} />
+            component = <OrganizationForm handleOnClick={this.handleClick.bind(this)} />
         }
 
         return(

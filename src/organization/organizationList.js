@@ -37,6 +37,7 @@ export default class OrganizationComponent extends Component {
         const TABLE_HEADER =
             <TableHeader displaySelectAll={false}>
                 <TableRow>
+                    <TableHeaderColumn>Nome</TableHeaderColumn>
                     <TableHeaderColumn>Descição</TableHeaderColumn>
                 </TableRow>
             </TableHeader>
@@ -46,6 +47,7 @@ export default class OrganizationComponent extends Component {
             <TableBody displayRowCheckbox={false} >
                 {this.state.organizations.map( (row, index) =>
                     <TableRow key={index}>
+                        <TableRowColumn>{row.name}</TableRowColumn>
                         <TableRowColumn>{row.description}</TableRowColumn>
                     </TableRow>
                 )}

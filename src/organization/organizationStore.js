@@ -1,16 +1,28 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
-// import firebase from '../app/firebaseApp';
+import firebase from '../app/firebase';
 import C from '../constants';
 
 class OrganizationStore extends EventEmitter {
+
     constructor() {
         super();
+
         this.organizations = [];
     }
 
-    createOrg() {
-        console.log('create');
+    createOrg(name, description) {
+        var newOrg = {
+            'name': name,
+            'description': description
+        };
+
+        return firebase.push(newOrg)
+            .then(function() {
+                this.organizations.push(newOrg);
+                this.emit('change');
+            }.bind(this)
+        );
     }
 
     updateOrg() {
@@ -40,7 +52,7 @@ class OrganizationStore extends EventEmitter {
     handleActions(action) {
         switch (action.type) {
             case C.ACTION_CREATE_ORG:
-                this.createOrg(action.description);
+                this.createOrg(action.name, action.description);
             break;
             case C.ACTION_UPDATE_ORG:
                 this.updateOrg(action.id, action.description);
