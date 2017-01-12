@@ -1,5 +1,6 @@
 export default {
 	// TYPE ACTIONS BUTTONS
+	ORG_CHANGE_LIST: 'org_change_list',
 	ORG_ACTION_BUTTON_NEW: 'new',
 	ORG_ACTION_BUTTON_CANCEL: 'cancel',
 	ORG_ACTION_BUTTON_CONFIRM: 'confirm',

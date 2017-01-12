@@ -8,12 +8,10 @@ export default class OrganizationComponent extends Component {
         const ACTIONS = [
               <FlatButton
                 label="Cancel"
-                primary={true}
                 onClick={this.props.onClickCancel}
               />,
               <FlatButton
                 label="Remove"
-                primary={true}
                 onClick={this.props.onClickRemove}
               />
         ];

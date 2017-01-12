@@ -18,9 +18,10 @@ class OrganizationStore extends EventEmitter {
         };
 
         return firebase.push(newOrg)
-            .then(function() {
+            .then(function(newOrgRes) {
+                newOrg.id = newOrgRes.key;
                 this.organizations.push(newOrg);
-                this.emit('change');
+                this.emit(C.ORG_CHANGE_LIST);
             }.bind(this)
         );
     }
@@ -29,8 +30,14 @@ class OrganizationStore extends EventEmitter {
         console.log('update');
     }
 
-    deleteOrg() {
-        console.log('delete');
+    deleteOrg(id) {
+        firebase.child(id).remove().then(function() {
+            var newOrgs = this.organizations.filter(function(org) {
+                return org.id !== id
+            });
+            this.organizations = newOrgs;
+            this.emit(C.ORG_CHANGE_LIST);
+        }.bind(this));
     }
 
     reloadOrg(organizations) {
@@ -65,7 +72,7 @@ class OrganizationStore extends EventEmitter {
             break;
             case C.ACTION_RELOAD_ORG:
                 this.reloadOrg(action.organizations);
-                this.emit('change');
+                this.emit(C.ORG_CHANGE_LIST);
             break;
             default:
                 // DO NOTHING
