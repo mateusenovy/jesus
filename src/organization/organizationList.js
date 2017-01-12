@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, FlatButton } from 'material-ui';
-import ContentRemove from 'material-ui/svg-icons/content/clear';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import ContentEdit from 'material-ui/svg-icons/image/edit';
 import OrganizationStore from './organizationStore';
 import * as OrganizationActions from './organizationActions';
 import OrganizationFloatButton from './organizationFloatButton';
@@ -62,13 +63,22 @@ export default class OrganizationComponent extends Component {
         });
     }
 
+    editRegister() {
+        console.log('edit');
+    }
+
     render() {
         let table,
             tableBody  = <TableBody></TableBody>,
-            removeIcon = <ContentRemove color={'#9F0000'} />,
+            removeIcon = <ContentRemove color={'#740000'} />,
+            editIcon = <ContentEdit />,
             flatButtonRemove =
                 <FlatButton icon={removeIcon}
                     onClick={this.openAlertRemove.bind(this)}
+                />,
+            flatButtonEdit =
+                <FlatButton icon={editIcon}
+                    onClick={this.editRegister.bind(this)}
                 />;
 
         const TABLE_HEADER =
@@ -87,7 +97,7 @@ export default class OrganizationComponent extends Component {
                     <TableRow key={index}>
                         <TableRowColumn>{row.name}</TableRowColumn>
                         <TableRowColumn>{row.description}</TableRowColumn>
-                        <TableRowColumn>{flatButtonRemove}</TableRowColumn>
+                        <TableRowColumn>{flatButtonEdit}{flatButtonRemove}</TableRowColumn>
                     </TableRow>
                 )}
             </TableBody>
