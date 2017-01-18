@@ -12,7 +12,7 @@ class OrganizationStore extends EventEmitter {
     }
 
     createOrg(name, description) {
-        var newOrg = {
+        let newOrg = {
             'name': name,
             'description': description
         };
@@ -26,8 +26,20 @@ class OrganizationStore extends EventEmitter {
         );
     }
 
-    updateOrg() {
-        console.log('update');
+    updateOrg(id, name, description) {
+        let newOrg = {
+            'name': name,
+            'description': description
+        };
+
+        firebase.child(id).update(newOrg).then(function(newOrgRes) {
+            this.emit(C.ORG_CHANGE_LIST);
+            var oldOrg = this.organizations.find(function(org, index) {
+                return org.id === id
+            });
+            Object.assign(oldOrg, newOrg);
+            this.emit(C.ORG_CHANGE_LIST);
+        }.bind(this));
     }
 
     deleteOrg(id) {
@@ -62,7 +74,7 @@ class OrganizationStore extends EventEmitter {
                 this.createOrg(action.name, action.description);
             break;
             case C.ACTION_UPDATE_ORG:
-                this.updateOrg(action.id, action.description);
+                this.updateOrg(action.id, action.name, action.description);
             break;
             case C.ACTION_DELETE_ORG:
                 this.deleteOrg(action.id);

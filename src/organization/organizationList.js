@@ -45,9 +45,16 @@ export default class OrganizationComponent extends Component {
         this.closeAlertRemove();
     }
 
-    onCellClick(rowSelected) {
-        this.setState({
-            'currentOrganization': this.getUserByIndex(rowSelected)
+    onCellClick(rowSelected, columnClicked) {
+
+        this.setState(function addCurrentOrgOnState(prevState) {
+            let currentOrganization = this.getUserByIndex(rowSelected);
+
+            if (prevState.handleTableFlatButtonOnClick && columnClicked === 3 ) {
+                prevState.handleTableFlatButtonOnClick('new', currentOrganization);
+            }
+
+            return {'currentOrganization': currentOrganization}
         });
     }
 
@@ -64,7 +71,9 @@ export default class OrganizationComponent extends Component {
     }
 
     editRegister() {
-        console.log('edit');
+        this.setState({
+            handleTableFlatButtonOnClick: this.props.handleOnClickNew
+        });
     }
 
     render() {

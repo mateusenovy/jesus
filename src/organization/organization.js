@@ -11,7 +11,8 @@ export default class OrganizationComponent extends Component {
     constructor() {
         super();
         this.state = {
-            showForm: false
+            showForm: false,
+            currentOrganization: {}
         }
     }
 
@@ -19,16 +20,22 @@ export default class OrganizationComponent extends Component {
         OrganizationActions.findOrgOnce();
     }
 
-    handleClick(eventName) {
-        var showForm = (eventName === C.ORG_ACTION_BUTTON_NEW);
-        this.setState({'showForm': showForm});
+    handleClick(eventName, currentOrganization) {
+        let showForm = (eventName === C.ORG_ACTION_BUTTON_NEW);
+        this.setState({
+            'showForm': showForm,
+            'currentOrganization': currentOrganization || {}
+        });
     }
 
     render() {
         let component = <OrganizationList handleOnClickNew={this.handleClick.bind(this)} />;
 
         if (this.state.showForm) {
-            component = <OrganizationForm handleOnClick={this.handleClick.bind(this)} />
+            component = <OrganizationForm
+                currentOrganization={this.state.currentOrganization}
+                handleOnClick={this.handleClick.bind(this)}
+            />
         }
 
         return(

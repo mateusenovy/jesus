@@ -10,6 +10,15 @@ export function createOrg(nameText, descriptionText) {
     });
 }
 
+export function editOrg(idText, nameText, descriptionText) {
+    dispatcher.dispatch({
+        type: C.ACTION_UPDATE_ORG,
+        id: idText,
+        name: nameText,
+        description: descriptionText
+    });
+}
+
 export function deleteOrg(id) {
     dispatcher.dispatch({
         type: C.ACTION_DELETE_ORG,

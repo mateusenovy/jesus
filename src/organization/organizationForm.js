@@ -13,8 +13,25 @@ export default class OrganizationComponent extends Component {
         super();
 
         this.state = {
-            validForm: false
+            validForm: false,
+            currentOrganization: {
+                id: null,
+                name: null,
+                description: null,
+                isNew: true
+            }
         }
+    }
+
+    componentDidMount() {
+        this.setState({
+            currentOrganization: {
+                id: this.props.currentOrganization.id || null,
+                name: this.props.currentOrganization.name || null,
+                description: this.props.currentOrganization.description || null,
+                isNew: !this.props.currentOrganization.id
+            }
+        });
     }
 
     clickConfirmButton() {
@@ -29,7 +46,13 @@ export default class OrganizationComponent extends Component {
     }
 
     submitOrganization(form) {
-        OrganizationActions.createOrg(form.name, form.description);
+        let name = form.name,
+            description = form.description;
+
+        if (this.state.currentOrganization.isNew)
+            return OrganizationActions.createOrg(name, description);
+
+        return OrganizationActions.editOrg(this.state.currentOrganization.id, name, description);
     }
 
     render() {
@@ -47,6 +70,7 @@ export default class OrganizationComponent extends Component {
                             required
                             validations="isWords"
                             validationError="error"
+                            value={this.state.currentOrganization.name}
                             style={{width: '100%'}}
                         />
                         <FormsyText
@@ -56,6 +80,7 @@ export default class OrganizationComponent extends Component {
                             required
                             validations="isWords"
                             validationError="error"
+                            value={this.state.currentOrganization.description}
                             style={{width: '100%'}}
                         />
                         <OrganizationFloatButton
