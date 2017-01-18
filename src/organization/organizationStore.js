@@ -33,7 +33,6 @@ class OrganizationStore extends EventEmitter {
         };
 
         firebase.child(id).update(newOrg).then(function(newOrgRes) {
-            this.emit(C.ORG_CHANGE_LIST);
             var oldOrg = this.organizations.find(function(org, index) {
                 return org.id === id
             });
