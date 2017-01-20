@@ -32,7 +32,6 @@ export default class CongregationList extends Component {
         });
     }
 
-
     findCongregations() {
         this.setState({
             findCongregations: CongregationStore.fingCongreation()

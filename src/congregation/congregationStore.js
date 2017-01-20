@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
-import firebase from '../app/firebase';
 import C from '../constants';
+var db = require('../app/firebase').getOrganizationDb('teste');
 
 class CongregationStore extends EventEmitter {
 
@@ -12,54 +12,54 @@ class CongregationStore extends EventEmitter {
     }
 
     createCongregation(name, description) {
-        let newOrg = {
+        let newCongr = {
             'name': name,
             'description': description
         };
 
-        return firebase.push(newOrg)
-            .then(function(newOrgRes) {
-                newOrg.id = newOrgRes.key;
-                this.congregations.push(newOrg);
+        return db.push(newCongr)
+            .then(function(newCongrRes) {
+                newCongr.id = newCongrRes.key;
+                this.congregations.push(newCongr);
                 this.emit(C.CONGR_CHANGE_LIST);
             }.bind(this)
         );
     }
 
     updateCongregation(id, name, description) {
-        let newOrg = {
+        let newCongr = {
             'name': name,
             'description': description
         };
 
-        firebase.child(id).update(newOrg).then(function(newOrgRes) {
-            var oldOrg = this.congregations.find(function(org, index) {
+        db.child(id).update(newCongr).then(function(newCongrRes) {
+            var oldCongr = this.congregations.find(function(org, index) {
                 return org.id === id
             });
-            Object.assign(oldOrg, newOrg);
+            Object.assign(oldCongr, newCongr);
             this.emit(C.CONGR_CHANGE_LIST);
         }.bind(this));
     }
 
     deleteCongregations(id) {
-        firebase.child(id).remove().then(function() {
-            var newOrgs = this.congregations.filter(function(org) {
+        db.child(id).remove().then(function() {
+            var newCongrs = this.congregations.filter(function(org) {
                 return org.id !== id
             });
-            this.congregations = newOrgs;
+            this.congregations = newCongrs;
             this.emit(C.CONGR_CHANGE_LIST);
         }.bind(this));
     }
 
     reloadCongregations(congregations) {
         var keys = Object.keys(congregations),
-            newOrgs = [];
+            newCongrs = [];
         keys.forEach(function(value, index) {
             congregations[value].id = value;
-            newOrgs.push(congregations[value]);
+            newCongrs.push(congregations[value]);
         });
 
-        this.congregations = newOrgs;
+        this.congregations = newCongrs;
         return this.congregations;
     }
 
@@ -82,7 +82,7 @@ class CongregationStore extends EventEmitter {
                 this.findCongregations();
             break;
             case C.ACTION_RELOAD_CONGR:
-                this.reloadCongregations();
+                this.reloadCongregations(action.congregations);
                 this.emit(C.CONGR_CHANGE_LIST);
             break;
             default:
