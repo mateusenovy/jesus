@@ -92,24 +92,24 @@ export default class CongregationList extends Component {
         const TABLE_HEADER =
             <TableHeader displaySelectAll={false} adjustForCheckbox={false} >
                 <TableRow>
-                    <TableHeaderColumn>Nome</TableHeaderColumn>
-                    <TableHeaderColumn>CNPJ</TableHeaderColumn>
-                    <TableHeaderColumn>Endereço</TableHeaderColumn>
-                    <TableHeaderColumn>Responsável</TableHeaderColumn>
-                    <TableHeaderColumn></TableHeaderColumn>
+                    <TableHeaderColumn style={{ width: 100 }}>Nome</TableHeaderColumn>
+                    <TableHeaderColumn style={{ width: 100 }}>CNPJ</TableHeaderColumn>
+                    <TableHeaderColumn style={{ width: 100 }}>Endereço</TableHeaderColumn>
+                    <TableHeaderColumn style={{ width: 100 }}>Responsável</TableHeaderColumn>
+                    <TableHeaderColumn style={{ width: 150 }}></TableHeaderColumn>
                 </TableRow>
             </TableHeader>
         ;
 
         tableBody =
-            <TableBody displayRowCheckbox={false} adjustForCheckbox={false} >
+            <TableBody displayRowCheckbox={false} adjustForCheckbox={false}>
                 {this.state.congregations.map( (row, index) =>
                     <TableRow key={index}>
-                        <TableRowColumn>{row.name}</TableRowColumn>
-                        <TableRowColumn>{row.cnpj}</TableRowColumn>
-                        <TableRowColumn>{row.address}</TableRowColumn>
-                        <TableRowColumn>{row.responsible}</TableRowColumn>
-                        <TableRowColumn>{flatButtonEdit}{flatButtonRemove}</TableRowColumn>
+                        <TableRowColumn style={{ width: 100 }} >{row.name}</TableRowColumn>
+                        <TableRowColumn style={{ width: 100 }} >{row.cnpj}</TableRowColumn>
+                        <TableRowColumn style={{ width: 100 }} >{row.address}</TableRowColumn>
+                        <TableRowColumn style={{ width: 100 }} >{row.responsible}</TableRowColumn>
+                        <TableRowColumn style={{ width: 150 }} >{flatButtonEdit}{flatButtonRemove}</TableRowColumn>
                     </TableRow>
                 )}
             </TableBody>
@@ -117,7 +117,7 @@ export default class CongregationList extends Component {
 
         table =
             <div>
-                <Table onCellClick={this.onCellClick.bind(this)}>
+                <Table  fixedHeader={true} onCellClick={this.onCellClick.bind(this)} bodyStyle={{overflow:'visible'}}>
                     {TABLE_HEADER}
                     {tableBody}
                 </Table>
