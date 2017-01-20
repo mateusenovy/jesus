@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('teste');
+var db = require('../app/firebase').getOrganizationDb('one');
 
 class CongregationStore extends EventEmitter {
 
@@ -33,18 +33,18 @@ class CongregationStore extends EventEmitter {
         };
 
         db.child(id).update(newCongr).then(function(newCongrRes) {
-            var oldCongr = this.congregations.find(function(org, index) {
-                return org.id === id
+            var oldCongr = this.congregations.find(function(congr, index) {
+                return congr.id === id
             });
             Object.assign(oldCongr, newCongr);
             this.emit(C.CONGR_CHANGE_LIST);
         }.bind(this));
     }
 
-    deleteCongregations(id) {
+    deleteCongregation(id) {
         db.child(id).remove().then(function() {
-            var newCongrs = this.congregations.filter(function(org) {
-                return org.id !== id
+            var newCongrs = this.congregations.filter(function(congr) {
+                return congr.id !== id
             });
             this.congregations = newCongrs;
             this.emit(C.CONGR_CHANGE_LIST);
@@ -76,7 +76,7 @@ class CongregationStore extends EventEmitter {
                 this.updateCongregation();
             break;
             case C.ACTION_DELETE_CONGR:
-                this.deleteCongregations();
+                this.deleteCongregation(action.id);
             break;
             case C.ACTION_FIND_CONGR:
                 this.findCongregations();

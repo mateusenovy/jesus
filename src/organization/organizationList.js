@@ -36,7 +36,7 @@ export default class OrganizationList extends Component {
         OrganizationStore.removeListener(C.ORG_CHANGE_LIST, this.findOrganizations);
     }
 
-    getCongregByIndex(index) {
+    getOrgByIndex(index) {
         return this.state.organizations[index];
     }
 
@@ -48,7 +48,7 @@ export default class OrganizationList extends Component {
     onCellClick(rowSelected, columnClicked) {
 
         this.setState(function addCurrentOrgOnState(prevState) {
-            let currentOrganization = this.getCongregByIndex(rowSelected);
+            let currentOrganization = this.getOrgByIndex(rowSelected);
 
             if (prevState.handleTableFlatButtonOnClick && columnClicked === 3 ) {
                 prevState.handleTableFlatButtonOnClick('new', currentOrganization);

@@ -1,6 +1,6 @@
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('teste');
+var db = require('../app/firebase').getOrganizationDb('one');
 
 export function createCongregation(name, cnpj, address, responsible) {
     dispatcher.dispatch({

@@ -6,6 +6,7 @@ import CongregationStore from './congregationStore';
 import * as CongregationActions from './congregationActions';
 import CongregationFloatButton from './congregationFloatButton';
 import AlertRemove from '../components/alertRemove';
+import C from '../constants';
 
 export default class CongregationList extends Component {
 
@@ -20,6 +21,20 @@ export default class CongregationList extends Component {
         this.findCongregations = this.findCongregations.bind(this);
     }
 
+    findCongregations() {
+        this.setState({
+            congregations: CongregationStore.findCongregations()
+        });
+    }
+
+    componentWillMount() {
+        CongregationStore.on(C.CONGR_CHANGE_LIST, this.findCongregations);
+    }
+
+    componentWillUnmount() {
+        CongregationStore.removeListener(C.CONGR_CHANGE_LIST, this.findCongregations);
+    }
+
     openAlertRemove() {
         this.setState({
             showAlertRemove: true
@@ -32,16 +47,14 @@ export default class CongregationList extends Component {
         });
     }
 
-    findCongregations() {
-        this.setState({
-            findCongregations: CongregationStore.fingCongreation()
-        });
+    getOrgByIndex(index) {
+        return this.state.congregations[index];
     }
 
     onCellClick(rowSelected, columnClicked) {
 
         this.setState(function addCurrentOrgOnState(prevState) {
-            let currentCongregation = this.getUserByIndex(rowSelected);
+            let currentCongregation = this.getOrgByIndex(rowSelected);
 
             if (prevState.handleTableFlatButtonOnClick && columnClicked === 3 ) {
                 prevState.handleTableFlatButtonOnClick('new', currentCongregation);
@@ -58,7 +71,7 @@ export default class CongregationList extends Component {
     }
 
     handleOnClickRemove() {
-        CongregationActions.deleteOrg(this.state.currentCongregation.id);
+        CongregationActions.deleteCongregation(this.state.currentCongregation.id);
         this.closeAlertRemove();
     }
 
