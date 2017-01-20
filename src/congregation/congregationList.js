@@ -2,60 +2,22 @@ import React, { Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, FlatButton } from 'material-ui';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import ContentEdit from 'material-ui/svg-icons/image/edit';
-import OrganizationStore from './organizationStore';
-import * as OrganizationActions from './organizationActions';
-import OrganizationFloatButton from './organizationFloatButton';
+import CongregationStore from './congregationStore';
+import * as CongregationActions from './congregationActions';
+import CongregationFloatButton from './congregationFloatButton';
 import AlertRemove from '../components/alertRemove';
-import C from '../constants';
 
-export default class OrganizationList extends Component {
+export default class CongregationList extends Component {
 
     constructor() {
         super();
 
         this.state = {
-            organizations: OrganizationStore.findOrg(),
-            currentOrganization: null,
+            congregations: [],
             showAlertRemove: false
         };
 
-        this.findOrganizations = this.findOrganizations.bind(this);
-    }
-
-    findOrganizations() {
-        this.setState({
-            organizations: OrganizationStore.findOrg()
-        });
-    }
-
-    componentWillMount() {
-        OrganizationStore.on(C.ORG_CHANGE_LIST, this.findOrganizations);
-    }
-
-    componentWillUnmount() {
-        OrganizationStore.removeListener(C.ORG_CHANGE_LIST, this.findOrganizations);
-    }
-
-    getCongregByIndex(index) {
-        return this.state.organizations[index];
-    }
-
-    handleOnClickRemove() {
-        OrganizationActions.deleteOrg(this.state.currentOrganization.id);
-        this.closeAlertRemove();
-    }
-
-    onCellClick(rowSelected, columnClicked) {
-
-        this.setState(function addCurrentOrgOnState(prevState) {
-            let currentOrganization = this.getCongregByIndex(rowSelected);
-
-            if (prevState.handleTableFlatButtonOnClick && columnClicked === 3 ) {
-                prevState.handleTableFlatButtonOnClick('new', currentOrganization);
-            }
-
-            return {'currentOrganization': currentOrganization}
-        });
+        this.findCongregations = this.findCongregations.bind(this);
     }
 
     openAlertRemove() {
@@ -70,10 +32,35 @@ export default class OrganizationList extends Component {
         });
     }
 
+
+    findCongregations() {
+        this.setState({
+            findCongregations: CongregationStore.fingCongreation()
+        });
+    }
+
+    onCellClick(rowSelected, columnClicked) {
+
+        this.setState(function addCurrentOrgOnState(prevState) {
+            let currentCongregation = this.getUserByIndex(rowSelected);
+
+            if (prevState.handleTableFlatButtonOnClick && columnClicked === 3 ) {
+                prevState.handleTableFlatButtonOnClick('new', currentCongregation);
+            }
+
+            return {'currentCongregation': currentCongregation}
+        });
+    }
+
     editRegister() {
         this.setState({
             handleTableFlatButtonOnClick: this.props.handleOnClickNew
         });
+    }
+
+    handleOnClickRemove() {
+        CongregationActions.deleteOrg(this.state.currentCongregation.id);
+        this.closeAlertRemove();
     }
 
     render() {
@@ -94,7 +81,9 @@ export default class OrganizationList extends Component {
             <TableHeader displaySelectAll={false} adjustForCheckbox={false} >
                 <TableRow>
                     <TableHeaderColumn>Nome</TableHeaderColumn>
-                    <TableHeaderColumn>Descição</TableHeaderColumn>
+                    <TableHeaderColumn>CNPJ</TableHeaderColumn>
+                    <TableHeaderColumn>Endereço</TableHeaderColumn>
+                    <TableHeaderColumn>Responsável</TableHeaderColumn>
                     <TableHeaderColumn></TableHeaderColumn>
                 </TableRow>
             </TableHeader>
@@ -102,10 +91,12 @@ export default class OrganizationList extends Component {
 
         tableBody =
             <TableBody displayRowCheckbox={false} adjustForCheckbox={false} >
-                {this.state.organizations.map( (row, index) =>
+                {this.state.congregations.map( (row, index) =>
                     <TableRow key={index}>
                         <TableRowColumn>{row.name}</TableRowColumn>
-                        <TableRowColumn>{row.description}</TableRowColumn>
+                        <TableRowColumn>{row.cnpj}</TableRowColumn>
+                        <TableRowColumn>{row.address}</TableRowColumn>
+                        <TableRowColumn>{row.responsible}</TableRowColumn>
                         <TableRowColumn>{flatButtonEdit}{flatButtonRemove}</TableRowColumn>
                     </TableRow>
                 )}
@@ -124,7 +115,7 @@ export default class OrganizationList extends Component {
         return (
             <div>
                 {table}
-                <OrganizationFloatButton handleOnClick={this.props.handleOnClickNew}/>
+                <CongregationFloatButton handleOnClick={this.props.handleOnClickNew}/>
                 <AlertRemove
                     showAlertRemove={this.state.showAlertRemove}
                     onClickCancel={this.closeAlertRemove.bind(this)}
