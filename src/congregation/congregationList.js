@@ -14,7 +14,7 @@ export default class CongregationList extends Component {
         super();
 
         this.state = {
-            congregations: [],
+            congregations: CongregationStore.findCongregations(),
             showAlertRemove: false
         };
 
@@ -47,16 +47,16 @@ export default class CongregationList extends Component {
         });
     }
 
-    getOrgByIndex(index) {
+    getCongregationByIndex(index) {
         return this.state.congregations[index];
     }
 
     onCellClick(rowSelected, columnClicked) {
 
-        this.setState(function addCurrentOrgOnState(prevState) {
-            let currentCongregation = this.getOrgByIndex(rowSelected);
+        this.setState(function addCurrentCongregationOnState(prevState) {
+            let currentCongregation = this.getCongregationByIndex(rowSelected);
 
-            if (prevState.handleTableFlatButtonOnClick && columnClicked === 3 ) {
+            if (prevState.handleTableFlatButtonOnClick && columnClicked === 5 ) {
                 prevState.handleTableFlatButtonOnClick('new', currentCongregation);
             }
 
@@ -117,7 +117,7 @@ export default class CongregationList extends Component {
 
         table =
             <div>
-                <Table  fixedHeader={true} onCellClick={this.onCellClick.bind(this)} bodyStyle={{overflow:'visible'}}>
+                <Table onCellClick={this.onCellClick.bind(this)} bodyStyle={{overflow:'visible'}}>
                     {TABLE_HEADER}
                     {tableBody}
                 </Table>

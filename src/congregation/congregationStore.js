@@ -11,42 +11,46 @@ class CongregationStore extends EventEmitter {
         this.congregations = [];
     }
 
-    createCongregation(name, description) {
-        let newCongr = {
+    createCongregation(name, cnpj, address, responsible) {
+        let newCongregation = {
             'name': name,
-            'description': description
+            'cnpj': cnpj,
+            'address': address,
+            'responsible': responsible
         };
 
-        return db.push(newCongr)
-            .then(function(newCongrRes) {
-                newCongr.id = newCongrRes.key;
-                this.congregations.push(newCongr);
+        return db.push(newCongregation)
+            .then(function(newCongregationRes) {
+                newCongregation.id = newCongregationRes.key;
+                this.congregations.push(newCongregation);
                 this.emit(C.CONGR_CHANGE_LIST);
             }.bind(this)
         );
     }
 
-    updateCongregation(id, name, description) {
-        let newCongr = {
+    updateCongregation(id, name, cnpj, address, responsible) {
+        let newCongregation = {
             'name': name,
-            'description': description
+            'cnpj': cnpj,
+            'address': address,
+            'responsible': responsible
         };
 
-        db.child(id).update(newCongr).then(function(newCongrRes) {
+        db.child(id).update(newCongregation).then(function(newCongregationRes) {
             var oldCongr = this.congregations.find(function(congr, index) {
                 return congr.id === id
             });
-            Object.assign(oldCongr, newCongr);
+            Object.assign(oldCongr, newCongregation);
             this.emit(C.CONGR_CHANGE_LIST);
         }.bind(this));
     }
 
     deleteCongregation(id) {
         db.child(id).remove().then(function() {
-            var newCongrs = this.congregations.filter(function(congr) {
+            var newCongregations = this.congregations.filter(function(congr) {
                 return congr.id !== id
             });
-            this.congregations = newCongrs;
+            this.congregations = newCongregations;
             this.emit(C.CONGR_CHANGE_LIST);
         }.bind(this));
     }
@@ -70,10 +74,10 @@ class CongregationStore extends EventEmitter {
     handleActions(action) {
         switch (action.type) {
             case C.ACTION_CREATE_CONGR:
-                this.createCongregation();
+                this.createCongregation(action.name, action.cnpj, action.address, action.responsible);
             break;
             case C.ACTION_UPDATE_CONGR:
-                this.updateCongregation();
+                this.updateCongregation(action.id, action.name, action.cnpj, action.address, action.responsible);
             break;
             case C.ACTION_DELETE_CONGR:
                 this.deleteCongregation(action.id);
