@@ -20,7 +20,7 @@ export default class GridComponent extends Component {
     }
 
     handleClick(eventName, currentGrid) {
-        let showForm = (eventName === C.CONGR_ACTION_BUTTON_NEW);
+        let showForm = (eventName === C.GRID_ACTION_BUTTON_NEW);
         this.setState({
             'showForm': showForm,
             'currentGrid': currentGrid || {}

@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
-import GridFloatButton from './gridFloatButton';
-import * as GridActions from './gridActions';
+import CellFloatButton from './cellFloatButton';
+import * as CellActions from './cellActions';
 
-export default class GridComponent extends Component {
+export default class CellComponent extends Component {
 
     constructor() {
         super();
 
         this.state = {
             validForm: false,
-            currentGrid: {
+            currentCell: {
                 id: null,
                 name: null,
-                color: null,
+                address: null,
                 responsible: null
             }
         }
@@ -23,19 +23,19 @@ export default class GridComponent extends Component {
 
     componentDidMount() {
         this.setState({
-            currentGrid: {
-                id: this.props.currentGrid.id || null,
-                name: this.props.currentGrid.name || null,
-                color: this.props.currentGrid.color || null,
-                responsible: this.props.currentGrid.responsible || null,
-                isNew: !this.props.currentGrid.id
+            currentCell: {
+                id: this.props.currentCell.id || null,
+                name: this.props.currentCell.name || null,
+                address: this.props.currentCell.address || null,
+                responsible: this.props.currentCell.responsible || null,
+                isNew: !this.props.currentCell.id
             }
         });
     }
 
     clickConfirmButton() {
         if (this.state.validForm)
-            this.refs.gridForm.submit();
+            this.refs.cellForm.submit();
     }
 
     setValidForm() {
@@ -44,23 +44,23 @@ export default class GridComponent extends Component {
         });
     }
 
-    submitGrid(form) {
+    submitCell(form) {
         let name = form.name,
-            color = form.color,
+            address = form.address,
             responsible = form.responsible;
 
-        if (this.state.currentGrid.isNew)
-            return GridActions.createGrid(name, color, responsible);
+        if (this.state.currentCell.isNew)
+            return CellActions.createCell(name, address, responsible);
 
-        return GridActions.editGrid(this.state.currentGrid.id, name, color, responsible);
+        return CellActions.editCell(this.state.currentCell.id, name, address, responsible);
     }
 
     render() {
         return(
             <div>
                     <Formsy.Form
-                        ref="gridForm"
-                        onSubmit={this.submitGrid.bind(this)}
+                        ref="cellForm"
+                        onSubmit={this.submitCell.bind(this)}
                         onValid={this.setValidForm.bind(this)}
                     >
                         <FormsyText
@@ -70,17 +70,17 @@ export default class GridComponent extends Component {
                             required
                             validations="isWords"
                             validationError="error"
-                            value={this.state.currentGrid.name}
+                            value={this.state.currentCell.name}
                             style={{width: '100%'}}
                         />
                         <FormsyText
-                            name="color"
-                            hintText="Cor"
-                            floatingLabelText="Color"
+                            name="address"
+                            hintText="Endereço"
+                            floatingLabelText="Endereço"
                             required
                             validations="isWords"
                             validationError="error"
-                            value={this.state.currentGrid.color}
+                            value={this.state.currentCell.address}
                             style={{width: '100%'}}
                         />
                         <FormsyText
@@ -90,10 +90,10 @@ export default class GridComponent extends Component {
                             required
                             validations="isWords"
                             validationError="error"
-                            value={this.state.currentGrid.responsible}
+                            value={this.state.currentCell.responsible}
                             style={{width: '100%'}}
                         />
-                        <GridFloatButton
+                        <CellFloatButton
                             showSaveAndCancel={true}
                             handleOnClick={this.props.handleOnClick}
                             handleOnClickConfirm={this.clickConfirmButton.bind(this)}
