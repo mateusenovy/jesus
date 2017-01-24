@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import FloatButton from '../components/floatButton/';
 import C from '../constants';
 
-export default class CongregationFloatButton extends Component {
+export default class GridFloatButton extends Component {
 
     handleClick(eventName, showSaveAndCancel) {
         this.props.handleOnClick(eventName);
@@ -11,17 +11,17 @@ export default class CongregationFloatButton extends Component {
 
     handleOnClickNew() {
         this.props.handleOnClickNew && this.props.handleOnClickNew();
-        this.handleClick(C.CONGR_ACTION_BUTTON_NEW, true);
+        this.handleClick(C.GRID_ACTION_BUTTON_NEW, true);
     }
 
     handleOnClickConfirm() {
         this.props.handleOnClickConfirm && this.props.handleOnClickConfirm();
-        this.handleClick(C.CONGR_ACTION_BUTTON_CONFIRM, false);
+        this.handleClick(C.GRID_ACTION_BUTTON_CONFIRM, false);
     }
 
     handleOnClickCancel() {
         this.props.handleOnClickCancel && this.props.handleOnClickCancel();
-        this.handleClick(C.CONGR_ACTION_BUTTON_CANCEL, false);
+        this.handleClick(C.GRID_ACTION_BUTTON_CANCEL, false);
     }
 
     render() {

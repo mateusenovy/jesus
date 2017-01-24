@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
 import OrganizationFloatButton from './organizationFloatButton';
-// import C from '../constants';
 import * as OrganizationActions from './organizationActions';
-// import OrganizationStore from './organizationStore';
 
 export default class OrganizationComponent extends Component {
 

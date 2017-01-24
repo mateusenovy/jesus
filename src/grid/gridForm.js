@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
-import CongregationFloatButton from './congregationFloatButton';
-import * as CongregationActions from './congregationActions';
+import GridFloatButton from './gridFloatButton';
+import * as GridActions from './gridActions';
 
-export default class CongregationComponent extends Component {
+export default class GridComponent extends Component {
 
     constructor() {
         super();
 
         this.state = {
             validForm: false,
-            currentCongregation: {
+            currentGrid: {
                 id: null,
-                cnpj: null,
-                address: null,
+                color: null,
                 responsible: true
             }
         }
@@ -23,20 +22,19 @@ export default class CongregationComponent extends Component {
 
     componentDidMount() {
         this.setState({
-            currentCongregation: {
-                id: this.props.currentCongregation.id || null,
-                name: this.props.currentCongregation.name || null,
-                cnpj: this.props.currentCongregation.cnpj || null,
-                address: this.props.currentCongregation.address || null,
-                responsible: this.props.currentCongregation.responsible || null,
-                isNew: !this.props.currentCongregation.id
+            currentGrid: {
+                id: this.props.currentGrid.id || null,
+                name: this.props.currentGrid.name || null,
+                color: this.props.currentGrid.color || null,
+                responsible: this.props.currentGrid.responsible || null,
+                isNew: !this.props.currentGrid.id
             }
         });
     }
 
     clickConfirmButton() {
         if (this.state.validForm)
-            this.refs.congregationForm.submit();
+            this.refs.gridForm.submit();
     }
 
     setValidForm() {
@@ -45,24 +43,23 @@ export default class CongregationComponent extends Component {
         });
     }
 
-    submitCongregation(form) {
+    submitGrid(form) {
         let name = form.name,
-            cnpj = form.cnpj,
-            address = form.address,
+            color = form.color,
             responsible = form.responsible;
 
-        if (this.state.currentCongregation.isNew)
-            return CongregationActions.createCongregation(name, cnpj, address, responsible);
+        if (this.state.currentGrid.isNew)
+            return GridActions.createGrid(name, color, responsible);
 
-        return CongregationActions.editCongregation(this.state.currentCongregation.id, name, cnpj, address, responsible);
+        return GridActions.editGrid(this.state.currentGrid.id, name, color, responsible);
     }
 
     render() {
         return(
             <div>
                     <Formsy.Form
-                        ref="congregationForm"
-                        onSubmit={this.submitCongregation.bind(this)}
+                        ref="gridForm"
+                        onSubmit={this.submitGrid.bind(this)}
                         onValid={this.setValidForm.bind(this)}
                     >
                         <FormsyText
@@ -72,27 +69,17 @@ export default class CongregationComponent extends Component {
                             required
                             validations="isWords"
                             validationError="error"
-                            value={this.state.currentCongregation.name}
+                            value={this.state.currentGrid.name}
                             style={{width: '100%'}}
                         />
                         <FormsyText
-                            name="cnpj"
-                            hintText="CNPJ"
-                            floatingLabelText="CNPJ"
+                            name="color"
+                            hintText="Cor"
+                            floatingLabelText="Color"
                             required
                             validations="isWords"
                             validationError="error"
-                            value={this.state.currentCongregation.cnpj}
-                            style={{width: '100%'}}
-                        />
-                        <FormsyText
-                            name="address"
-                            hintText="Endereço"
-                            floatingLabelText="Endereço"
-                            required
-                            validations="isWords"
-                            validationError="error"
-                            value={this.state.currentCongregation.address}
+                            value={this.state.currentGrid.color}
                             style={{width: '100%'}}
                         />
                         <FormsyText
@@ -102,10 +89,10 @@ export default class CongregationComponent extends Component {
                             required
                             validations="isWords"
                             validationError="error"
-                            value={this.state.currentCongregation.responsible}
+                            value={this.state.currentGrid.responsible}
                             style={{width: '100%'}}
                         />
-                        <CongregationFloatButton
+                        <GridFloatButton
                             showSaveAndCancel={true}
                             handleOnClick={this.props.handleOnClick}
                             handleOnClickConfirm={this.clickConfirmButton.bind(this)}
