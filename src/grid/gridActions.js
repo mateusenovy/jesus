@@ -2,21 +2,23 @@ import dispatcher from '../app/dispatcher';
 import C from '../constants';
 var db = require('../app/firebase').getOrganizationDb('one');
 
-export function createGrid(name, color, responsible) {
+export function createGrid(congregation, name, color, responsible) {
     dispatcher.dispatch({
         type: C.ACTION_CREATE_GRID,
         'name':         name,
         'color':        color,
+        'congregation': congregation,
         'responsible':  responsible
     });
 }
 
-export function editGrid(id, name, color, responsible) {
+export function editGrid(id, congregation, name, color, responsible) {
     dispatcher.dispatch({
         type: C.ACTION_UPDATE_GRID,
         'id':           id,
         'name':         name,
         'color':        color,
+        'congregation': congregation,
         'responsible':  responsible
     });
 }

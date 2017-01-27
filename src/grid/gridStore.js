@@ -11,14 +11,14 @@ class GridStore extends EventEmitter {
         this.grids = [];
     }
 
-    createGrid(name, color, responsible) {
+    createGrid(congregation, name, color, responsible) {
         let newGrid = {
             'name': name,
             'color': color,
             'responsible': responsible
         };
 
-        return db.push(newGrid)
+        return db.child(congregation).push(newGrid)
             .then(function(newGridRes) {
                 newGrid.id = newGridRes.key;
                 this.grids.push(newGrid);
@@ -27,14 +27,14 @@ class GridStore extends EventEmitter {
         );
     }
 
-    updateGrid(id, name, color, responsible) {
+    updateGrid(id, congregation, name, color, responsible) {
         let newGrid = {
             'name': name,
             'color': color,
             'responsible': responsible
         };
 
-        db.child(id).update(newGrid).then(function(newGridRes) {
+        db.child(congregation).child(id).update(newGrid).then(function(newGridRes) {
             var oldCongr = this.grids.find(function(congr, index) {
                 return congr.id === id
             });
@@ -72,10 +72,10 @@ class GridStore extends EventEmitter {
     handleActions(action) {
         switch (action.type) {
             case C.ACTION_CREATE_GRID:
-                this.createGrid(action.name, action.color, action.responsible);
+                this.createGrid(action.congregation, action.name, action.color, action.responsible);
             break;
             case C.ACTION_UPDATE_GRID:
-                this.updateGrid(action.id, action.name, action.color, action.responsible);
+                this.updateGrid(action.congregation, action.id, action.name, action.color, action.responsible);
             break;
             case C.ACTION_DELETE_GRID:
                 this.deleteGrid(action.id);
