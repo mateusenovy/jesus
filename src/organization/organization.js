@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import OrganizationList from './organizationList';
+// import OrganizationList from './organizationList';
+import OrganizationList from './organizationCard';
 import OrganizationForm from './organizationForm';
 import C from '../constants';
 import * as OrganizationActions from './organizationActions';
