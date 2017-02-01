@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 
-// import OrganizationList from './organizationList';
-import OrganizationList from './organizationCard';
+import OrganizationCard from './organizationCard';
 import OrganizationForm from './organizationForm';
 import C from '../constants';
 import * as OrganizationActions from './organizationActions';
-// import OrganizationStore from './organizationStore';
 
 export default class OrganizationComponent extends Component {
 
@@ -30,7 +28,7 @@ export default class OrganizationComponent extends Component {
     }
 
     render() {
-        let component = <OrganizationList handleOnClickNew={this.handleClick.bind(this)} />;
+        let component = <OrganizationCard handleOnClickNew={this.handleClick.bind(this)} />;
 
         if (this.state.showForm) {
             component = <OrganizationForm

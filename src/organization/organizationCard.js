@@ -36,7 +36,14 @@ export default class OrganizationList extends Component {
         OrganizationStore.removeListener(C.ORG_CHANGE_LIST, this.findOrganizations);
     }
 
+    stopPropagation(event) {
+        event.stopPropagation();
+    }
+
     getOrgByIndex(index) {
+        if (isNaN(Number(index))) {
+            throw new Error('Invalid number of index');
+        }
         return this.state.organizations[index];
     }
 
@@ -45,24 +52,16 @@ export default class OrganizationList extends Component {
         this.closeAlertRemove();
     }
 
-    onCellClick(rowSelected, columnClicked) {
-
-        this.setState(function addCurrentOrgOnState(prevState) {
-            let currentOrganization = this.getOrgByIndex(rowSelected);
-
-            if (prevState.handleTableFlatButtonOnClick && columnClicked === 3 ) {
-                prevState.handleTableFlatButtonOnClick('new', currentOrganization);
-            }
-
-            return {'currentOrganization': currentOrganization}
-        });
-    }
-
     openAlertRemove(event) {
-        debugger;
+        let id = event.currentTarget.id,
+            currentOrganization = this.getOrgByIndex(id);
+
         this.setState({
-            showAlertRemove: true
+            'showAlertRemove': true,
+            'currentOrganization': currentOrganization 
         });
+
+        this.stopPropagation(event);
     }
 
     closeAlertRemove(event) {
@@ -71,10 +70,12 @@ export default class OrganizationList extends Component {
         });
     }
 
-    editRegister() {
-        this.setState({
-            handleTableFlatButtonOnClick: this.props.handleOnClickNew
-        });
+    editRegister(event) {
+        let id = event.currentTarget.id,
+            currentOrganization = this.getOrgByIndex(id);
+        
+        this.props.handleOnClickNew('new', currentOrganization);
+        this.stopPropagation(event);
     }
 
     render() {
@@ -85,7 +86,7 @@ export default class OrganizationList extends Component {
         table =
             <GridList cols={2} >
                 {this.state.organizations.map( (row, index) =>
-                    <Card key={index}>
+                    <Card key={index} >
                         <CardHeader
                             title={row.name} />
                         <CardText>
@@ -93,10 +94,10 @@ export default class OrganizationList extends Component {
                             {<div><b>Descrição:</b> {row.description}</div>}
                         </CardText>
                         <CardActions style={{'text-align': 'center'}}>
-                            <FlatButton id={index} icon={editIcon}
+                            <FlatButton name="edit" id={index} icon={editIcon}
                                 onClick={this.editRegister.bind(this)}
                             />
-                            <FlatButton id={index} icon={removeIcon}
+                            <FlatButton name="remove" id={index} icon={removeIcon}
                                 onClick={this.openAlertRemove.bind(this)}
                             />
                         </CardActions>
