@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import CongregationList from './congregationList';
+import CongregationCard from './congregationCard';
 import CongregationForm from './congregationForm';
 import C from '../constants';
 import * as CongregationActions from './congregationActions';
@@ -28,7 +28,7 @@ export default class CongregationComponent extends Component {
     }
 
     render() {
-        let component = <CongregationList handleOnClickNew={this.handleClick.bind(this)} />;
+        let component = <CongregationCard handleOnClickNew={this.handleClick.bind(this)} />;
 
         if (this.state.showForm) {
             component = <CongregationForm
