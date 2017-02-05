@@ -2,30 +2,31 @@ import dispatcher from '../app/dispatcher';
 import C from '../constants';
 var db = require('../app/firebase').getOrganizationDb('one');
 
-export function createGrid(congregation, name, color, responsible) {
+export function createGrid(congregationId, name, color, responsible) {
     dispatcher.dispatch({
         type: C.ACTION_CREATE_GRID,
-        'name':         name,
-        'color':        color,
-        'congregation': congregation,
-        'responsible':  responsible
+        'name':           name,
+        'color':          color,
+        'congregationId': congregationId,
+        'responsible':    responsible
     });
 }
 
-export function editGrid(id, congregation, name, color, responsible) {
+export function editGrid(id, congregationId, name, color, responsible) {
     dispatcher.dispatch({
         type: C.ACTION_UPDATE_GRID,
-        'id':           id,
-        'name':         name,
-        'color':        color,
-        'congregation': congregation,
-        'responsible':  responsible
+        'id':             id,
+        'name':           name,
+        'color':          color,
+        'congregationId': congregationId,
+        'responsible':    responsible
     });
 }
 
-export function deleteGrid(id) {
+export function deleteGrid(congregationId, id) {
     dispatcher.dispatch({
         type: C.ACTION_DELETE_GRID,
+        congregationId,
         id
     });
 }
@@ -37,12 +38,13 @@ export function findGrid(filter) {
     });
 }
 
-export function findGridOnce() {
+export function findGridOnce(congregationId) {
     db.once('value', function(res) {
-        var grids = res.val() || {};
+        var congregations = res.val() || {};
         dispatcher.dispatch({
             type: C.ACTION_RELOAD_GRID,
-            grids
+            congregationId,
+            congregations
         });
     });
 }

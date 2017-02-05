@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 import Formsy from 'formsy-react';
-import { FormsyText, FormsyAutoComplete } from 'formsy-material-ui/lib';
-import { AutoComplete } from 'material-ui';
+import { FormsyText } from 'formsy-material-ui/lib';
 import GridFloatButton from './gridFloatButton';
 import * as GridActions from './gridActions';
 
@@ -17,10 +16,8 @@ export default class GridComponent extends Component {
                 id: null,
                 name: null,
                 color: null,
-                congregation: null,
                 responsible: null
-            },
-            selectedCongregation: null
+            }
         }
     }
 
@@ -30,10 +27,9 @@ export default class GridComponent extends Component {
                 id: this.props.currentGrid.id || null,
                 name: this.props.currentGrid.name || null,
                 color: this.props.currentGrid.color || null,
-                responsible: this.props.responsible || null,
+                responsible: this.props.currentGrid.responsible || null,
                 isNew: !this.props.currentGrid.id
-            },
-            selectedCongregation: this.props.congregation || null
+            }
         });
     }
 
@@ -48,29 +44,19 @@ export default class GridComponent extends Component {
         });
     }
 
-    onSelectAutoComplte(selected) {
-        this.setState({
-            selectedCongregation: selected
-        });
-    }
-
     submitGrid(form) {
-        debugger;
         let name = form.name,
             color = form.color,
             responsible = form.responsible,
-            congregation = this.state.selectedCongregation.id;
+            congregationId = this.props.congregationId;
 
         if (this.state.currentGrid.isNew)
-            return GridActions.createGrid(congregation, name, color, responsible);
+            return GridActions.createGrid(congregationId, name, color, responsible);
 
-        return GridActions.editGrid(this.state.currentGrid.id, congregation, name, color, responsible);
+        return GridActions.editGrid(this.state.currentGrid.id, congregationId, name, color, responsible);
     }
 
     render() {
-        console.log(this.props);
-        debugger;
-
         return(
             <div>
                     <Formsy.Form
@@ -78,20 +64,6 @@ export default class GridComponent extends Component {
                         onSubmit={this.submitGrid.bind(this)}
                         onValid={this.setValidForm.bind(this)}
                     >
-                        <FormsyAutoComplete
-                            name="congregation"
-                            hintText="Congregação"
-                            floatingLabelText="Congregação"
-                            dataSource={this.props.congregations}
-                            dataSourceConfig={{ text: 'label', value: 'id'}}
-                            onNewRequest={this.onSelectAutoComplte.bind(this)}
-                            value={this.state.selectedCongregation}
-                            filter={AutoComplete.fuzzyFilter}
-                            openOnFocus={true}
-                            fullWidth={true}
-                            menuStyle={{maxHeight:"40vh"}}
-                            maxSearchResults={50}
-                        />
                         <FormsyText
                             name="name"
                             hintText="Nome"

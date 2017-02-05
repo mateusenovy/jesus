@@ -3,37 +3,37 @@ import { Card, CardHeader, CardText, CardActions, GridList, FlatButton } from 'm
 import { Link } from 'react-router';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import ContentEdit from 'material-ui/svg-icons/image/edit';
-import CongregationStore from './congregationStore';
-import * as CongregationActions from './congregationActions';
-import CongregationFloatButton from './congregationFloatButton';
+import GridStore from './gridStore';
+import * as GridActions from './gridActions';
+import GridFloatButton from './gridFloatButton';
 import AlertRemove from '../components/alertRemove';
 import C from '../constants';
 
-export default class CongregationList extends Component {
+export default class GridCard extends Component {
 
     constructor() {
         super();
 
         this.state = {
-            congregations: CongregationStore.findCongregations(),
+            grids: GridStore.findGrids(),
             showAlertRemove: false
         };
 
-        this.findCongregations = this.findCongregations.bind(this);
+        this.findGrids = this.findGrids.bind(this);
     }
 
-    findCongregations() {
+    findGrids() {
         this.setState({
-            congregations: CongregationStore.findCongregations()
+            grids: GridStore.findGrids()
         });
     }
 
     componentWillMount() {
-        CongregationStore.on(C.CONGR_CHANGE_LIST, this.findCongregations);
+        GridStore.on(C.GRID_CHANGE_LIST, this.findGrids);
     }
 
     componentWillUnmount() {
-        CongregationStore.removeListener(C.CONGR_CHANGE_LIST, this.findCongregations);
+        GridStore.removeListener(C.GRID_CHANGE_LIST, this.findGrids);
     }
 
     stopPropagation(event) {
@@ -41,19 +41,19 @@ export default class CongregationList extends Component {
         event.preventDefault();
     }
 
-    getCongregationByIndex(index) {
+    getGridByIndex(index) {
         if (isNaN(Number(index))) {
             throw new Error('Invalid number of index');
         }
-        return this.state.congregations[index];
+        return this.state.grids[index];
     }
 
     openAlertRemove(event) {
         let id = event.currentTarget.id,
-            currentCongregation = this.getCongregationByIndex(id);
+            currentGrid = this.getGridByIndex(id);
         this.setState({
             'showAlertRemove': true,
-            'currentCongregation': currentCongregation 
+            'currentGrid': currentGrid 
         });
 
         this.stopPropagation(event);
@@ -67,14 +67,14 @@ export default class CongregationList extends Component {
 
     editRegister(event) {
         let id = event.currentTarget.id,
-            currentCongregation = this.getCongregationByIndex(id);
+            currentGrid = this.getGridByIndex(id);
         
-        this.props.handleOnClickNew('new', currentCongregation);
+        this.props.handleOnClickNew('new', currentGrid);
         this.stopPropagation(event);
     }
 
     handleOnClickRemove() {
-        CongregationActions.deleteCongregation(this.state.currentCongregation.id);
+        GridActions.deleteGrid(this.props.congregationId, this.state.currentGrid.id);
         this.closeAlertRemove();
     }
 
@@ -82,18 +82,19 @@ export default class CongregationList extends Component {
         let cards,
             removeIcon = <ContentRemove color={'#740000'} />,
             editIcon = <ContentEdit />;
-            
+
         cards =
             <GridList cols={1} padding={10} cellHeight={'auto'} >
-                {this.state.congregations.map( (row, index) =>
+                {this.state.grids.map( (row, index) =>
                     <Card key={index} >
-                        <Link to={`grid/${row.id}`} style={{ textDecoration: 'none' }}>
+                        <Link to={`cell/${this.props.congregationId}/${row.id}`} 
+                              style={{ textDecoration: 'none' }} 
+                            >
                             <CardHeader
                                 title={row.name} />
                             <CardText>
                                 {<div><b>Nome:</b> {row.name}</div>}
-                                {<div><b>CNPJ:</b> {row.cnpj}</div>}
-                                {<div><b>Endereço:</b> {row.address}</div>}
+                                {<div><b>Color:</b> {row.color}</div>}
                                 {<div><b>Responsável:</b> {row.responsible}</div>}
                             </CardText>
                             <CardActions style={{'text-align': 'center'}}>
@@ -113,7 +114,7 @@ export default class CongregationList extends Component {
         return (
             <div>
                 {cards}
-                <CongregationFloatButton handleOnClick={this.props.handleOnClickNew}/>
+                <GridFloatButton handleOnClick={this.props.handleOnClickNew}/>
                 <AlertRemove
                     showAlertRemove={this.state.showAlertRemove}
                     onClickCancel={this.closeAlertRemove.bind(this)}

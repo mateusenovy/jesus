@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import GridList from './gridList';
+import GridCard from './gridCard';
 import GridForm from './gridForm';
 import C from '../constants';
 import * as GridActions from './gridActions';
@@ -16,7 +16,8 @@ export default class GridComponent extends Component {
     }
 
     componentDidMount() {
-        GridActions.findGridOnce();
+        let congregationId = this.props.params.congregationId;
+        GridActions.findGridOnce(congregationId);
     }
 
     handleClick(eventName, currentGrid) {
@@ -28,16 +29,16 @@ export default class GridComponent extends Component {
     }
 
     render() {
-        let component = <GridList
+        let component = <GridCard
             handleOnClickNew={this.handleClick.bind(this)}
-            congregation={this.props.params.congregationId}
+            congregationId={this.props.params.congregationId}
         />;
 
         if (this.state.showForm) {
             component = <GridForm
                 currentGrid={this.state.currentGrid}
                 handleOnClick={this.handleClick.bind(this)}
-                congregation={this.props.params.congregationId}
+                congregationId={this.props.params.congregationId}
             />;
         }
 
