@@ -4,7 +4,6 @@ import GridList from './gridList';
 import GridForm from './gridForm';
 import C from '../constants';
 import * as GridActions from './gridActions';
-import CongregationStore from './../congregation/congregationStore';
 
 export default class GridComponent extends Component {
 
@@ -12,24 +11,12 @@ export default class GridComponent extends Component {
         super();
         this.state = {
             showForm: false,
-            currentGrid: {},
-            congregations: this.findCongregations()
+            currentGrid: {}
         }
     }
 
     componentDidMount() {
         GridActions.findGridOnce();
-    }
-
-    findCongregations() {
-        let congregations = CongregationStore.findCongregations();
-        congregations.forEach(function(value, key) {
-            congregations[key] = {
-                id: value.id,
-                label: value.name
-            }
-        });
-        return congregations;
     }
 
     handleClick(eventName, currentGrid) {
@@ -43,14 +30,14 @@ export default class GridComponent extends Component {
     render() {
         let component = <GridList
             handleOnClickNew={this.handleClick.bind(this)}
-            congregations={this.state.congregations}
+            congregation={this.props.params.congregationId}
         />;
 
         if (this.state.showForm) {
             component = <GridForm
                 currentGrid={this.state.currentGrid}
                 handleOnClick={this.handleClick.bind(this)}
-                congregations={this.state.congregations}
+                congregation={this.props.params.congregationId}
             />;
         }
 

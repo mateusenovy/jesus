@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, CardText, CardActions, GridList, FlatButton } from 'material-ui';
+import { Link } from 'react-router';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import ContentEdit from 'material-ui/svg-icons/image/edit';
 import CongregationStore from './congregationStore';
@@ -37,6 +38,7 @@ export default class CongregationList extends Component {
 
     stopPropagation(event) {
         event.stopPropagation();
+        event.preventDefault();
     }
 
     getCongregationByIndex(index) {
@@ -63,10 +65,6 @@ export default class CongregationList extends Component {
         });
     }
 
-    getCongregationByIndex(index) {
-        return this.state.congregations[index];
-    }
-
     editRegister(event) {
         let id = event.currentTarget.id,
             currentCongregation = this.getCongregationByIndex(id);
@@ -86,25 +84,27 @@ export default class CongregationList extends Component {
             editIcon = <ContentEdit />;
             
         cards =
-            <GridList cols={2} padding={10} cellHeight={'auto'} >
+            <GridList cols={1} padding={10} cellHeight={'auto'} >
                 {this.state.congregations.map( (row, index) =>
-                    <Card key={index} >
-                        <CardHeader
-                            title={row.name} />
-                        <CardText>
-                            {<div><b>Nome:</b> {row.name}</div>}
-                            {<div><b>CNPJ:</b> {row.cnpj}</div>}
-                            {<div><b>Endereço:</b> {row.address}</div>}
-                            {<div><b>Responsável:</b> {row.responsible}</div>}
-                        </CardText>
-                        <CardActions style={{'text-align': 'center'}}>
-                            <FlatButton name="edit" id={index} icon={editIcon}
-                                onClick={this.editRegister.bind(this)}
-                            />
-                            <FlatButton name="remove" id={index} icon={removeIcon}
-                                onClick={this.openAlertRemove.bind(this)}
-                            />
-                        </CardActions>
+                    <Card key={index} style={{'text-decoration': 'none'}}>
+                        <Link to={`grid/${row.id}`}>
+                            <CardHeader
+                                title={row.name} />
+                            <CardText>
+                                {<div><b>Nome:</b> {row.name}</div>}
+                                {<div><b>CNPJ:</b> {row.cnpj}</div>}
+                                {<div><b>Endereço:</b> {row.address}</div>}
+                                {<div><b>Responsável:</b> {row.responsible}</div>}
+                            </CardText>
+                            <CardActions style={{'text-align': 'center'}}>
+                                <FlatButton name="edit" id={index} icon={editIcon}
+                                    onClick={this.editRegister.bind(this)}
+                                />
+                                <FlatButton name="remove" id={index} icon={removeIcon}
+                                    onClick={this.openAlertRemove.bind(this)}
+                                />
+                            </CardActions>
+                        </Link>
                     </Card>
                 )}
             </GridList>

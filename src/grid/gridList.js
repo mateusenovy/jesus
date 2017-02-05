@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, TableBody, TableHeader,
          TableHeaderColumn, TableRow, TableRowColumn,
-         FlatButton, SelectField, MenuItem, Divider
+         FlatButton
        } from 'material-ui';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import ContentEdit from 'material-ui/svg-icons/image/edit';
@@ -78,14 +78,6 @@ export default class GridList extends Component {
         this.closeAlertRemove();
     }
 
-    mountCongregationsOnSelect(congregations) {
-        let congregationMenuItens = [];
-        congregations.forEach(function(value, key) {
-            congregationMenuItens.push(<MenuItem value={value.id} primaryText={value.label} />);
-        })
-        return congregationMenuItens;
-    }
-
     render() {
         let table,
             tableBody  = <TableBody></TableBody>,
@@ -98,14 +90,7 @@ export default class GridList extends Component {
             flatButtonEdit =
                 <FlatButton icon={editIcon}
                     onClick={this.editRegister.bind(this)}
-                />,
-            itensCongregation = this.mountCongregationsOnSelect(this.props.congregations),
-            selectCongregation = <SelectField
-                hintText="Congregation"
-                floatingLabelText="Congregation"
-                fullWidth={true} >
-                    {itensCongregation}
-            </SelectField>;
+                />;
 
         const TABLE_HEADER =
             <TableHeader displaySelectAll={false} adjustForCheckbox={false} >
@@ -142,7 +127,6 @@ export default class GridList extends Component {
 
         return (
             <div>
-                {selectCongregation}
                 {table}
                 <GridFloatButton handleOnClick={this.props.handleOnClickNew}/>
                 <AlertRemove

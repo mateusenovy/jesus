@@ -47,8 +47,6 @@ export default class AppBarComponent extends Component {
                 >
                     <Link to="organization"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Organização</MenuItem></Link>
                     <Link to="congregation"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Congregação</MenuItem></Link>
-                    <Link to="grid"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Rede</MenuItem></Link>
-                    <Link to="cell"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Célula</MenuItem></Link>
                 </Drawer>
                 {this.props.children}
             </div>

@@ -13,9 +13,9 @@ export default class Routers extends Component {
         return(
             <Router history={hashHistory}>
                 <Route path="/" component={AppBar}>
-                    <Route path="congregation" component={Congregation}></Route>
-                    <Route path="grid" component={Grid}></Route>
                     <Route path="organization" component={Organization}></Route>
+                    <Route path="congregation" component={Congregation}></Route>
+                    <Route path="grid/:congregationId" component={Grid}></Route>
                     <Route path="cell" component={Cell}></Route>
                 </Route>
             </Router>
