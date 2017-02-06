@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import CellList from './cellList';
+import CellCard from './cellCard';
 import CellForm from './cellForm';
 import C from '../constants';
 import * as CellActions from './cellActions';
@@ -16,7 +16,9 @@ export default class CellComponent extends Component {
     }
 
     componentDidMount() {
-        CellActions.findCellOnce();
+        let congregationId = this.props.params.congregationId,
+            gridId = this.props.params.gridId;
+        CellActions.findCellOnce(congregationId, gridId);
     }
 
     handleClick(eventName, currentCell) {
@@ -28,12 +30,18 @@ export default class CellComponent extends Component {
     }
 
     render() {
-        let component = <CellList handleOnClickNew={this.handleClick.bind(this)} />;
+        let component = <CellCard 
+            handleOnClickNew={this.handleClick.bind(this)} 
+            congregationId={this.props.params.congregationId}
+            gridId={this.props.params.gridId}
+        />;
 
         if (this.state.showForm) {
             component = <CellForm
                 currentCell={this.state.currentCell}
                 handleOnClick={this.handleClick.bind(this)}
+                congregationId={this.props.params.congregationId}
+                gridId={this.props.params.gridId}
             />
         }
 

@@ -2,29 +2,33 @@ import dispatcher from '../app/dispatcher';
 import C from '../constants';
 var db = require('../app/firebase').getOrganizationDb('one');
 
-export function createCell(name, address, responsible) {
+export function createCell(congregationId, gridId, name, address, responsible) {
     dispatcher.dispatch({
         type: C.ACTION_CREATE_CELL,
-        'name':         name,
-        'address':      address,
-        'responsible':  responsible
+        'congregationId': congregationId,
+        'gridId':         gridId,
+        'name':           name,
+        'address':        address,
+        'responsible':    responsible
     });
 }
 
-export function editCell(id, name, address, responsible) {
+export function editCell(congregationId, gridId, cellId, name, address, responsible) {
     dispatcher.dispatch({
         type: C.ACTION_UPDATE_CELL,
-        'id':           id,
-        'name':         name,
-        'address':      address,
-        'responsible':  responsible
+        'congregationId': congregationId,
+        'gridId':         gridId,
+        'cellId':         cellId,
+        'name':           name,
+        'address':        address,
+        'responsible':    responsible
     });
 }
 
-export function deleteCell(id) {
+export function deleteCell(congregationId, gridId, cellId) {
     dispatcher.dispatch({
         type: C.ACTION_DELETE_CELL,
-        id
+        congregationId, gridId, cellId
     });
 }
 
@@ -35,12 +39,13 @@ export function findCell(filter) {
     });
 }
 
-export function findCellOnce() {
+export function findCellOnce(congregationId, gridId) {
     db.once('value', function(res) {
-        var cells = res.val() || {};
+        var congregations = res.val() || {};
         dispatcher.dispatch({
             type: C.ACTION_RELOAD_CELL,
-            cells
+            congregationId, gridId,
+            congregations
         });
     });
 }

@@ -45,14 +45,17 @@ export default class CellComponent extends Component {
     }
 
     submitCell(form) {
-        let name = form.name,
-            address = form.address,
-            responsible = form.responsible;
+        let name           = form.name,
+            address        = form.address,
+            responsible    = form.responsible,
+            cellId         = this.state.currentCell.id,
+            congregationId = this.props.congregationId,
+            gridId         = this.props.gridId;
 
         if (this.state.currentCell.isNew)
-            return CellActions.createCell(name, address, responsible);
+            return CellActions.createCell(congregationId, gridId, name, address, responsible);
 
-        return CellActions.editCell(this.state.currentCell.id, name, address, responsible);
+        return CellActions.editCell(congregationId, gridId, cellId, name, address, responsible);
     }
 
     render() {

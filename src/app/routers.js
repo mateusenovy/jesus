@@ -16,7 +16,7 @@ export default class Routers extends Component {
                     <Route path="organization" component={Organization}></Route>
                     <Route path="congregation" component={Congregation}></Route>
                     <Route path="grid/:congregationId" component={Grid}></Route>
-                    <Route path="cell" component={Cell}></Route>
+                    <Route path="cell/:congregationId/:gridId" component={Cell}></Route>
                 </Route>
             </Router>
         );

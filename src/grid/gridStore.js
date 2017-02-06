@@ -57,7 +57,7 @@ class GridStore extends EventEmitter {
         let grids = congregations[congregationId].grids,
             newGrids = [];
 
-        if (grids) {
+        if (!!grids) {
             let keys = Object.keys(grids);
 
             keys.forEach(function(value, index) {
