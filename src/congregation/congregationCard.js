@@ -87,7 +87,11 @@ export default class CongregationList extends Component {
             <GridList cols={1} padding={10} cellHeight={'auto'} >
                 {this.state.congregations.map( (row, index) =>
                     <Card key={index} >
-                        <Link to={`grid/${row.id}`} style={{ textDecoration: 'none' }}>
+                        <Link to={{
+                                pathname: `grid/${row.id}`, 
+                                state: { titleAppBar: row.name } 
+                            }}
+                            style={{ textDecoration: 'none' }} >
                             <CardHeader
                                 title={row.name} />
                             <CardText>

@@ -87,9 +87,11 @@ export default class GridCard extends Component {
             <GridList cols={1} padding={10} cellHeight={'auto'} >
                 {this.state.grids.map( (row, index) =>
                     <Card key={index} >
-                        <Link to={`cell/${this.props.congregationId}/${row.id}`} 
-                              style={{ textDecoration: 'none' }} 
-                            >
+                        <Link to={{
+                                pathname: `cell/${this.props.congregationId}/${row.id}`, 
+                                state: { titleAppBar: row.name } 
+                            }} 
+                            style={{ textDecoration: 'none' }} >
                             <CardHeader
                                 title={row.name} />
                             <CardText>

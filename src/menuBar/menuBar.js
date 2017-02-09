@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Drawer, AppBar, MenuItem } from 'material-ui';
+import { Drawer, MenuItem } from 'material-ui';
 import { Link } from 'react-router';
 
 export default class AppBarComponent extends Component {
@@ -34,11 +34,6 @@ export default class AppBarComponent extends Component {
     render() {
         return(
             <div>
-                <AppBar
-                    title="Jesus"
-                    onTitleTouchTap={this.hundleTitleTouchTap.bind(this)}
-                    onLeftIconButtonTouchTap={this.hundleLeftIconButtonTouchTap.bind(this)}
-                />
                 <Drawer
                     docked={false}
                     width={300}
