@@ -45,9 +45,9 @@ export default class GridComponent extends Component {
     }
 
     submitGrid(form) {
-        let name = form.name,
-            color = form.color,
-            responsible = form.responsible,
+        let name = form.name.trim().toUpperCaseAllFirstWord(),
+            color = form.color.trim(),
+            responsible = form.responsible.trim(),
             congregationId = this.props.congregationId;
 
         if (this.state.currentGrid.isNew)
@@ -69,7 +69,7 @@ export default class GridComponent extends Component {
                             hintText="Nome"
                             floatingLabelText="Nome"
                             required
-                            validations="isWords"
+                            validations={{"isWords": true, "isOnlySpace": true}}
                             validationError="error"
                             value={this.state.currentGrid.name}
                             style={{width: '100%'}}
@@ -79,7 +79,7 @@ export default class GridComponent extends Component {
                             hintText="Cor"
                             floatingLabelText="Color"
                             required
-                            validations="isWords"
+                            validations={{"isWords": true, "isOnlySpace": true}}
                             validationError="error"
                             value={this.state.currentGrid.color}
                             style={{width: '100%'}}
@@ -89,7 +89,7 @@ export default class GridComponent extends Component {
                             hintText="Responsável"
                             floatingLabelText="Responsible"
                             required
-                            validations="isWords"
+                            validations={{"isWords": true, "isOnlySpace": true}}
                             validationError="error"
                             value={this.state.currentGrid.responsible}
                             style={{width: '100%'}}

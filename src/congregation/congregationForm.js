@@ -4,6 +4,7 @@ import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
 import CongregationFloatButton from './congregationFloatButton';
 import * as CongregationActions from './congregationActions';
+import C from '../constants';
 
 export default class CongregationComponent extends Component {
 
@@ -14,9 +15,10 @@ export default class CongregationComponent extends Component {
             validForm: false,
             currentCongregation: {
                 id: null,
+                name: null,
                 cnpj: null,
                 address: null,
-                responsible: true
+                responsible: null
             }
         }
     }
@@ -34,27 +36,47 @@ export default class CongregationComponent extends Component {
         });
     }
 
-    clickConfirmButton() {
-        if (this.state.validForm)
-            this.refs.congregationForm.submit();
+    handleOnClick(eventName) {
+        let isValidOrCancel = (this.state.validForm || eventName === C.CONGR_ACTION_BUTTON_CANCEL);
+        isValidOrCancel && this.props.handleOnClick();
     }
 
-    setValidForm() {
+    validateInvalidForm() {
+        this.handleOnClick(C.CONGR_ACTION_BUTTON_CONFIRM)
+    }
+
+    clickConfirmButton() {
+        this.refs.congregationForm.submit();
+    }
+
+    setFormValid(isValid) {
         this.setState({
-            validForm: true
+            validForm: isValid
         });
     }
 
+    setValidForm() {
+        this.setFormValid(true);
+    }
+
+    setInvalidForm() {
+        this.setFormValid(false);
+    }
+
     submitCongregation(form) {
-        let name = form.name,
-            cnpj = form.cnpj,
-            address = form.address,
-            responsible = form.responsible;
+        let name = form.name.trim().toUpperCaseAllFirstWord(),
+            cnpj = form.cnpj.trim(),
+            address = form.address.trim(),
+            responsible = form.responsible.trim(),
+            id = this.state.currentCongregation.id,
+            isNew = this.state.currentCongregation.isNew;
 
-        if (this.state.currentCongregation.isNew)
-            return CongregationActions.createCongregation(name, cnpj, address, responsible);
+        if (this.state.validForm) {
+            isNew ? 
+                CongregationActions.createCongregation(name, cnpj, address, responsible) : 
+                CongregationActions.editCongregation(id, name, cnpj, address, responsible);
+        }
 
-        return CongregationActions.editCongregation(this.state.currentCongregation.id, name, cnpj, address, responsible);
     }
 
     render() {
@@ -64,14 +86,16 @@ export default class CongregationComponent extends Component {
                         ref="congregationForm"
                         onSubmit={this.submitCongregation.bind(this)}
                         onValid={this.setValidForm.bind(this)}
+                        onInvalid={this.setInvalidForm.bind(this)}
                     >
                         <FormsyText
                             name="name"
                             hintText="Nome"
                             floatingLabelText="Nome"
                             required
-                            validations="isWords"
-                            validationError="error"
+                            validations={{"isWords": true, "isOnlySpace": true }}
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentCongregation.name}
                             style={{width: '100%'}}
                         />
@@ -80,8 +104,9 @@ export default class CongregationComponent extends Component {
                             hintText="CNPJ"
                             floatingLabelText="CNPJ"
                             required
-                            validations="isWords"
-                            validationError="error"
+                            validations={{"isCnpj": true}}
+                            validationError="CNPJ inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentCongregation.cnpj}
                             style={{width: '100%'}}
                         />
@@ -90,8 +115,9 @@ export default class CongregationComponent extends Component {
                             hintText="Endereço"
                             floatingLabelText="Endereço"
                             required
-                            validations="isWords"
-                            validationError="error"
+                            validations={{"isOnlySpace": true}}
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentCongregation.address}
                             style={{width: '100%'}}
                         />
@@ -100,14 +126,15 @@ export default class CongregationComponent extends Component {
                             hintText="Responsável"
                             floatingLabelText="Responsible"
                             required
-                            validations="isWords"
-                            validationError="error"
+                            validations={{"isWords": true, "isOnlySpace": true}}
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentCongregation.responsible}
                             style={{width: '100%'}}
                         />
                         <CongregationFloatButton
                             showSaveAndCancel={true}
-                            handleOnClick={this.props.handleOnClick}
+                            handleOnClick={this.handleOnClick.bind(this)}
                             handleOnClickConfirm={this.clickConfirmButton.bind(this)}
                         />
                     </Formsy.Form>

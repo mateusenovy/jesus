@@ -45,9 +45,9 @@ export default class CellComponent extends Component {
     }
 
     submitCell(form) {
-        let name           = form.name,
-            address        = form.address,
-            responsible    = form.responsible,
+        let name           = form.name.trim().toUpperCaseAllFirstWord(),
+            address        = form.address.trim(),
+            responsible    = form.responsible.trim(),
             cellId         = this.state.currentCell.id,
             congregationId = this.props.congregationId,
             gridId         = this.props.gridId;
@@ -71,7 +71,7 @@ export default class CellComponent extends Component {
                             hintText="Nome"
                             floatingLabelText="Nome"
                             required
-                            validations="isWords"
+                            validations={{"isWords": true, "isOnlySpace": true}}
                             validationError="error"
                             value={this.state.currentCell.name}
                             style={{width: '100%'}}
@@ -81,7 +81,7 @@ export default class CellComponent extends Component {
                             hintText="Endereço"
                             floatingLabelText="Endereço"
                             required
-                            validations="isWords"
+                            validations={{"isOnlySpace": true}}
                             validationError="error"
                             value={this.state.currentCell.address}
                             style={{width: '100%'}}
@@ -91,7 +91,7 @@ export default class CellComponent extends Component {
                             hintText="Responsável"
                             floatingLabelText="Responsible"
                             required
-                            validations="isWords"
+                            validations={{"isWords": true, "isOnlySpace": true}}
                             validationError="error"
                             value={this.state.currentCell.responsible}
                             style={{width: '100%'}}
