@@ -4,6 +4,7 @@ import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
 import CellFloatButton from './cellFloatButton';
 import * as CellActions from './cellActions';
+import C from '../constants';
 
 export default class CellComponent extends Component {
 
@@ -33,15 +34,27 @@ export default class CellComponent extends Component {
         });
     }
 
+    handleOnClick(eventName) {
+        let isValidOrCancel = (this.state.validForm || eventName === C.CELL_ACTION_BUTTON_CANCEL);
+        isValidOrCancel && this.props.handleOnClick();
+    }
+
     clickConfirmButton() {
-        if (this.state.validForm)
-            this.refs.cellForm.submit();
+        this.refs.cellForm.submit();
+    }
+
+    setFormValid(isValid) {
+        this.setState({
+            validForm: isValid
+        });
     }
 
     setValidForm() {
-        this.setState({
-            validForm: true
-        });
+        this.setFormValid(true);
+    }
+
+    setInvalidForm() {
+        this.setFormValid(false);
     }
 
     submitCell(form) {
@@ -50,12 +63,14 @@ export default class CellComponent extends Component {
             responsible    = form.responsible.trim(),
             cellId         = this.state.currentCell.id,
             congregationId = this.props.congregationId,
-            gridId         = this.props.gridId;
+            gridId         = this.props.gridId,
+            isNew          = this.state.currentCell.isNew;
 
-        if (this.state.currentCell.isNew)
-            return CellActions.createCell(congregationId, gridId, name, address, responsible);
-
-        return CellActions.editCell(congregationId, gridId, cellId, name, address, responsible);
+        if (this.state.validForm) {
+            isNew ?
+                CellActions.createCell(congregationId, gridId, name, address, responsible) :
+                CellActions.editCell(congregationId, gridId, cellId, name, address, responsible);
+        }
     }
 
     render() {
@@ -72,7 +87,8 @@ export default class CellComponent extends Component {
                             floatingLabelText="Nome"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
-                            validationError="error"
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentCell.name}
                             style={{width: '100%'}}
                         />
@@ -82,7 +98,8 @@ export default class CellComponent extends Component {
                             floatingLabelText="Endereço"
                             required
                             validations={{"isOnlySpace": true}}
-                            validationError="error"
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentCell.address}
                             style={{width: '100%'}}
                         />
@@ -92,13 +109,14 @@ export default class CellComponent extends Component {
                             floatingLabelText="Responsible"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
-                            validationError="error"
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentCell.responsible}
                             style={{width: '100%'}}
                         />
                         <CellFloatButton
                             showSaveAndCancel={true}
-                            handleOnClick={this.props.handleOnClick}
+                            handleOnClick={this.handleOnClick.bind(this)}
                             handleOnClickConfirm={this.clickConfirmButton.bind(this)}
                         />
                     </Formsy.Form>
