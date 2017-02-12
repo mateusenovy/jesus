@@ -4,6 +4,7 @@ import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
 import OrganizationFloatButton from './organizationFloatButton';
 import * as OrganizationActions from './organizationActions';
+import C from '../constants';
 
 export default class OrganizationComponent extends Component {
 
@@ -32,25 +33,40 @@ export default class OrganizationComponent extends Component {
         });
     }
 
+    handleOnClick(eventName) {
+        let isValidOrCancel = (this.state.validForm || eventName === C.ORG_ACTION_BUTTON_CANCEL);
+        isValidOrCancel && this.props.handleOnClick();
+    }
+
     clickConfirmButton() {
-        if (this.state.validForm)
-            this.refs.organizationForm.submit();
+        this.refs.organizationForm.submit();
+    }
+
+    setFormValid(isValid) {
+        this.setState({
+            validForm: isValid
+        });
     }
 
     setValidForm() {
-        this.setState({
-            validForm: true
-        });
+        this.setFormValid(true);
+    }
+
+    setInvalidForm() {
+        this.setFormValid(false);
     }
 
     submitOrganization(form) {
         let name = form.name,
-            description = form.description;
+            description = form.description,
+            isNew = this.state.currentOrganization.isNew;
 
-        if (this.state.currentOrganization.isNew)
-            return OrganizationActions.createOrg(name, description);
+        if (this.state.validForm) {
+            isNew ? 
+                OrganizationActions.createOrg(name, description) :
+                OrganizationActions.editOrg(this.state.currentOrganization.id, name, description);
+        }
 
-        return OrganizationActions.editOrg(this.state.currentOrganization.id, name, description);
     }
 
     render() {
@@ -60,14 +76,16 @@ export default class OrganizationComponent extends Component {
                         ref="organizationForm"
                         onSubmit={this.submitOrganization.bind(this)}
                         onValid={this.setValidForm.bind(this)}
+                        onInvalid={this.setInvalidForm.bind(this)}
                     >
                         <FormsyText
                             name="name"
                             hintText="Nome"
                             floatingLabelText="Nome"
                             required
-                            validations="isWords"
-                            validationError="error"
+                            validations={{"isWords": true, "isOnlySpace": true}}
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentOrganization.name}
                             style={{width: '100%'}}
                         />
@@ -76,14 +94,15 @@ export default class OrganizationComponent extends Component {
                             hintText="Descrição"
                             floatingLabelText="Descrição"
                             required
-                            validations="isWords"
-                            validationError="error"
+                            validations={{"isOnlySpace": true}}
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
                             value={this.state.currentOrganization.description}
                             style={{width: '100%'}}
                         />
                         <OrganizationFloatButton
                             showSaveAndCancel={true}
-                            handleOnClick={this.props.handleOnClick}
+                            handleOnClick={this.handleOnClick.bind(this)}
                             handleOnClickConfirm={this.clickConfirmButton.bind(this)}
                         />
                     </Formsy.Form>

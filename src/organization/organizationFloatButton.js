@@ -5,23 +5,23 @@ import C from '../constants';
 
 export default class OrganizationFloatButton extends Component {
 
-    handleClick(eventName, showSaveAndCancel) {
+    handleClick(eventName) {
         this.props.handleOnClick(eventName);
     }
 
     handleOnClickNew() {
         this.props.handleOnClickNew && this.props.handleOnClickNew();
-        this.handleClick(C.ORG_ACTION_BUTTON_NEW, true);
+        this.handleClick(C.ORG_ACTION_BUTTON_NEW);
     }
 
     handleOnClickConfirm() {
         this.props.handleOnClickConfirm && this.props.handleOnClickConfirm();
-        this.handleClick(C.ORG_ACTION_BUTTON_CONFIRM, false);
+        this.handleClick(C.ORG_ACTION_BUTTON_CONFIRM);
     }
 
     handleOnClickCancel() {
         this.props.handleOnClickCancel && this.props.handleOnClickCancel();
-        this.handleClick(C.ORG_ACTION_BUTTON_CANCEL, false);
+        this.handleClick(C.ORG_ACTION_BUTTON_CANCEL);
     }
 
     render() {

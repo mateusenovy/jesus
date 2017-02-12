@@ -80,6 +80,7 @@ export default class CellComponent extends Component {
                         ref="cellForm"
                         onSubmit={this.submitCell.bind(this)}
                         onValid={this.setValidForm.bind(this)}
+                        onInvalid={this.setInvalidForm.bind(this)}
                     >
                         <FormsyText
                             name="name"
