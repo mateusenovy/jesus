@@ -4,4 +4,5 @@ export default {
     authDomain: "novy-b3778.firebaseapp.com",
     databaseURL: "https://novy-b3778.firebaseio.com",
     storageBucket: "novy-b3778.appspot.com",
+    messagingSenderId: "438194186645"
 };

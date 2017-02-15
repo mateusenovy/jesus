@@ -1,4 +1,4 @@
-import { initializeApp, database } from 'firebase';
+import { initializeApp, database, auth } from 'firebase';
 import firebaseConfig from '../constants/firebase';
 
 initializeApp(firebaseConfig);

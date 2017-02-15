@@ -57,8 +57,8 @@ export default class OrganizationComponent extends Component {
     }
 
     submitOrganization(form) {
-        let name = form.name,
-            description = form.description,
+        let name = form.name.trim().toUpperCaseAllFirstWord(),
+            description = form.description.trim(),
             isNew = this.state.currentOrganization.isNew;
 
         if (this.state.validForm) {

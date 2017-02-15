@@ -84,7 +84,7 @@ export default class OrganizationList extends Component {
             editIcon = <ContentEdit />;
 
         cards =
-            <GridList cols={2} padding={10} cellHeight={'auto'} >
+            <GridList cols={1} padding={10} cellHeight={'auto'} >
                 {this.state.organizations.map( (row, index) =>
                     <Card key={index} >
                         <CardHeader

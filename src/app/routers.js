@@ -6,6 +6,7 @@ import Congregation from '../congregation/congregation';
 import Grid from '../grid/grid';
 import Organization from '../organization/organization';
 import Cell from '../cell/cell';
+import Login from '../login';
 import * as AppBarActions from '../appBar/appBarActions';
 
 export default class Routers extends Component {
@@ -32,6 +33,9 @@ export default class Routers extends Component {
                         onEnter={this.handleRoutersOnEnter.bind(this)} 
                         component={Cell}>
                     </Route>
+                </Route>
+                <Route path="/login"
+                        component={Login}>
                 </Route>
             </Router>
         );
