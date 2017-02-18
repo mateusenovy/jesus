@@ -21,21 +21,17 @@ export default class Login extends Component {
         }
 
         this.showMessageLogin = this.showMessageLogin.bind(this);
-        this.changeToHomeScreen = this.changeToHomeScreen.bind(this);
     }
 
     componentWillMount() {
         LoginStore.on(C.SHOW_MESSAGE_LOGIN, this.showMessageLogin);
-        LoginStore.on(C.CHANGE_TO_HOME_SCREEN, this.changeToHomeScreen);
     }
 
     componentWillUnmount() {
         LoginStore.removeListener(C.SHOW_MESSAGE_LOGIN, this.showMessageLogin);
-        LoginStore.removeListener(C.CHANGE_TO_HOME_SCREEN, this.changeToHomeScreen);
     }
 
     showMessageLogin(messageText, time) {
-        debugger;
         this.setState({
             snackbar: {
                 'open': true,
@@ -43,10 +39,6 @@ export default class Login extends Component {
                 'time': time || this.state.snackbar.time
             }
         });
-    }
-
-    changeToHomeScreen() {
-        this.props.router.push('/');
     }
 
     handleOnClickStart() {
@@ -97,9 +89,9 @@ export default class Login extends Component {
                     />
                 </Formsy.Form>
                 <Snackbar
-                  open={this.state.snackbar.open}
-                  message={this.state.snackbar.message}
-                  autoHideDuration={this.state.snackbar.time}
+                    open={this.state.snackbar.open}
+                    message={this.state.snackbar.message}
+                    autoHideDuration={this.state.snackbar.time}
                 />
             </div>
         );

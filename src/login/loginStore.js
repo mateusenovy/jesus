@@ -5,12 +5,21 @@ import C from '../constants';
 
 class LoginStore extends EventEmitter {
 
+    checkUserIsSigned() {
+        auth().onAuthStateChanged(function(user) {
+            let screen = !!user ? null : 'login';
+            
+            this.emit(C.CHANGE_SCREEN, screen);
+            
+        }.bind(this));
+    }
+
     validateUserLogin(userName, password) {
         let email = userName + '@treis.com.br';
 
         auth().signInWithEmailAndPassword(email, password)
             .then(function() {
-                this.emit(C.CHANGE_TO_HOME_SCREEN);
+                this.emit(C.CHANGE_SCREEN);
             }.bind(this))
             .catch(function(error) {
                 let message = null;
@@ -19,7 +28,6 @@ class LoginStore extends EventEmitter {
                 }
                 this.emit(C.SHOW_MESSAGE_LOGIN, message);
             }.bind(this));
-
     }
 
     handleActions(action) {
