@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { Router, Route, hashHistory } from 'react-router';
-import Dashboard from './dashboard';
 import AppBar from '../appBar';
 import Congregation from '../congregation/congregation';
 import Grid from '../grid/grid';

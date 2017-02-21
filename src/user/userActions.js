@@ -1,5 +1,4 @@
 import dispatcher from '../app/dispatcher';
-import firebase from '../app/firebase';
 import C from '../constants';
 var db = require('../app/firebase').getOrganizationDb('users');
 

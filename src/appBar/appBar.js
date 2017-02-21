@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import { Drawer, AppBar, MenuItem } from 'material-ui';
-import { Link } from 'react-router';
+import { AppBar } from 'material-ui';
 import AppBarStore from './appBarStore';
 import Dashboard from '../app/dashboard';
 import C from '../constants';

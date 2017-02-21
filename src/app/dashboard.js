@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Card, CardHeader, CardText, CardActions, GridList, FlatButton } from 'material-ui';
+import { Card, CardHeader, GridList } from 'material-ui';
 import { Link } from 'react-router';
 
 export default class AppBarComponent extends Component {

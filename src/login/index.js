@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Formsy from 'formsy-react';
 import { RaisedButton, Snackbar } from 'material-ui';
 import { FormsyText } from 'formsy-material-ui/lib';
 import * as LoginAction from './loginActions';
@@ -81,10 +82,10 @@ export default class Login extends Component {
                         value={this.state.currentUser.password}
                         style={{width: '100%'}}
                     />
-                    <RaisedButton 
+                    <RaisedButton
                         label="Entrar"
-                        fullWidth={true} 
-                        primary={true} 
+                        fullWidth={true}
+                        primary={true}
                         onClick={this.handleOnClickStart.bind(this)}
                     />
                 </Formsy.Form>

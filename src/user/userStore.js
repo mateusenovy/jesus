@@ -22,8 +22,7 @@ class UserStore extends EventEmitter {
             'situation': situation,
             'cell': cell,
             'disciplinarian': disciplinarian
-        },
-            currentUser = LoginStore.getCurrentUser();
+        };
 
         LoginStore.createUserLogin(name, password).then(function(user) {
             newUser.userId = user.uid;
