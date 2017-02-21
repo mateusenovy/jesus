@@ -5,13 +5,16 @@ import C from '../constants';
 
 class LoginStore extends EventEmitter {
 
+    getCurrentUser() {
+        return auth().currentUser;
+    }
+
     checkUserIsSigned() {
-        auth().onAuthStateChanged(function(user) {
-            let screen = !!user ? null : 'login';
-            
-            this.emit(C.CHANGE_SCREEN, screen);
-            
-        }.bind(this));
+        let user = this.getCurrentUser();
+        debugger;
+        let screen = !!user ? null : 'login';
+
+        this.emit(C.CHANGE_SCREEN, screen);
     }
 
     validateUserLogin(userName, password) {
@@ -28,6 +31,32 @@ class LoginStore extends EventEmitter {
                 }
                 this.emit(C.SHOW_MESSAGE_LOGIN, message);
             }.bind(this));
+    }
+
+    signInWithToken(token) {
+        auth().signInWithCustomToken(token)
+            .then(function() {
+                console.log('opa');
+            })
+            .catch(function() {
+                console.log('error');
+            });
+    }
+
+    reauthenticate(currentUser) {
+        debugger;
+        let credential;
+        currentUser.reauthenticate();
+    }
+
+    createUserLogin(userName, password) {
+        debugger;
+        let email = userName + '@treis.com.br';
+        return auth().createUserWithEmailAndPassword(email, password)
+            .catch(function(error) {
+                console.error(error.message);
+            }
+        );
     }
 
     handleActions(action) {

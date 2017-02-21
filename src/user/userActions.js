@@ -3,10 +3,10 @@ import firebase from '../app/firebase';
 import C from '../constants';
 var db = require('../app/firebase').getOrganizationDb('users');
 
-export function createUser(name, birth, rg, address, situation, cell, disciplinarian) {
+export function createUser(name, password, birth, rg, address, situation, cell, disciplinarian) {
     dispatcher.dispatch({
         type: C.ACTION_CREATE_USER,
-        name, birth, rg, address, situation, cell, disciplinarian
+        name, password, birth, rg, address, situation, cell, disciplinarian
     });
 }
 

@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
 var db = require('../app/firebase').getOrganizationDb('users');
+import LoginStore from '../login/loginStore';
 
 class UserStore extends EventEmitter {
 
@@ -11,24 +12,32 @@ class UserStore extends EventEmitter {
         this.users = [];
     }
 
-    createUser(name, birth, rg, address, situation, cell, disciplinarian) {
+    createUser(name, password, birth, rg, address, situation, cell, disciplinarian) {
         let newUser = {
             'name': name,
+            'password': password,
             'birth': birth,
             'rg': rg,
             'address': address,
             'situation': situation,
             'cell': cell,
             'disciplinarian': disciplinarian
-        };
-
-        return db.push(newUser)
-            .then(function(newUserRes) {
-                newUser.id = newUserRes.key;
-                this.users.push(newUser);
-                this.emit(C.USER_CHANGE_LIST);
-            }.bind(this)
-        );
+        },
+            currentUser = LoginStore.getCurrentUser();
+        debugger;
+        LoginStore.createUserLogin(name, password).then(function(user) {
+            debugger;
+            // console.log(currentUser);
+            LoginStore.signInWithToken(currentUser.j);
+            newUser.userId = user.uid;
+            db.push(newUser)
+                .then(function(newUserRes) {
+                    newUser.id = newUserRes.key;
+                    this.users.push(newUser);
+                    this.emit(C.USER_CHANGE_LIST);
+                }.bind(this)
+            );
+        }.bind(this));
     }
 
     updateUser(id, name, birth, rg, address, situation, cell, disciplinarian) {
@@ -80,8 +89,8 @@ class UserStore extends EventEmitter {
     handleActions(action) {
         switch (action.type) {
             case C.ACTION_CREATE_USER:
-                this.createUser(action.name, action.birth, action.rg, action.address,
-                    action.situation, action.cell, action.disciplinarian
+                this.createUser(action.name, action.password, action.birth,
+                    action.rg, action.address, action.situation, action.cell, action.disciplinarian
                 );
             break;
             case C.ACTION_UPDATE_USER:

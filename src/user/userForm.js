@@ -63,6 +63,7 @@ export default class UserComponent extends Component {
 
     submitUser(form) {
         let name = form.name.trim().toUpperCaseAllFirstWord(),
+            password = form.password,
             birth = form.birth.trim(),
             rg = form.rg.trim(),
             address = form.address.trim(),
@@ -73,7 +74,7 @@ export default class UserComponent extends Component {
 
         if (this.state.validForm) {
             isNew ?
-                UserActions.createUser(name, birth, rg, address, situation, cell, disciplinarian) :
+                UserActions.createUser(name, password, birth, rg, address, situation, cell, disciplinarian) :
                 UserActions.editUser(this.state.currentUser.id, name, birth, rg, address, situation, cell, disciplinarian);
         }
 
@@ -97,6 +98,17 @@ export default class UserComponent extends Component {
                             validationError="Campo inválido"
                             requiredError="Campo obrigatório"
                             value={this.state.currentUser.name}
+                            style={{width: '100%'}}
+                        />
+                        <FormsyText
+                            name="password"
+                            hintText="Senha"
+                            floatingLabelText="Senha"
+                            required
+                            validations={{"isWords": true, "isOnlySpace": true}}
+                            validationError="Campo inválido"
+                            requiredError="Campo obrigatório"
+                            value={this.state.currentUser.password}
                             style={{width: '100%'}}
                         />
                         <FormsyText
