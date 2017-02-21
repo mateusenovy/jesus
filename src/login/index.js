@@ -75,6 +75,7 @@ export default class Login extends Component {
                         name="password"
                         hintText="Senha"
                         floatingLabelText="Senha"
+                        type="password"
                         required
                         validations={{ "isOnlySpace": true }}
                         validationError="Campo inválido"
