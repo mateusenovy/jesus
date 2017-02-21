@@ -7,18 +7,18 @@ class AppBarStore extends EventEmitter {
     constructor() {
         super();
 
-        this.defaultTitle = 'Jesus';
+        this.defaultTitle = 'Treis';
     }
 
-    changeTitleAppBar(title) {
+    changeTitleAppBar(title, showGoBack) {
         title = title || this.defaultTitle;
-        this.emit(C.ACTION_CHANGE_TITLE, title);
+        this.emit(C.ACTION_CHANGE_TITLE, title, showGoBack);
     }
 
     handleActions(action) {
         switch (action.type) {
             case C.ACTION_CHANGE_TITLE:
-                this.changeTitleAppBar(action.title);
+                this.changeTitleAppBar(action.title, action.showGoBack);
             break;
             default:
                 // DO NOTHING

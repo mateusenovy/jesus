@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Drawer, AppBar, MenuItem } from 'material-ui';
 import { Link } from 'react-router';
 import AppBarStore from './appBarStore';
+import Dashboard from '../app/dashboard';
 import C from '../constants';
 
 import NavigationClose from 'material-ui/svg-icons/navigation/arrow-back';
@@ -15,7 +16,7 @@ export default class AppBarComponent extends Component {
 
         this.state = {
             openDrawer: false,
-            title: 'Jesus'
+            title: 'Treis'
         }
 
         this.setTitleBar = this.setTitleBar.bind(this);
@@ -47,27 +48,31 @@ export default class AppBarComponent extends Component {
         this.setDrawerState();
     }
 
-    setTitleBar(title) {
+    setTitleBar(title, showGoBack) {
         this.setState({
             'title': title,
-            'showGoBack': title !== 'Jesus'
+            'showGoBack': title !== 'Treis' || showGoBack
         });
     }
 
-    handleGoBack(event) {
+    handleGoBack() {
         this.props.router.goBack();
+        this.setTitleBar('Treis', false);
     };
 
     render() {
         let appBarProps = {
             onTitleTouchTap: this.hundleTitleTouchTap.bind(this),
-            onLeftIconButtonTouchTap: this.hundleLeftIconButtonTouchTap.bind(this)
-        };
+            onLeftIconButtonTouchTap: this.hundleLeftIconButtonTouchTap.bind(this),
+            showMenuIconButton: false
+        },
+            renderDashboard = this.props.children || <Dashboard />;
 
         if (this.state.showGoBack) {
             appBarProps.iconElementLeft = <IconButton><NavigationClose /></IconButton>;
             appBarProps.onTitleTouchTap = this.handleGoBack.bind(this);
             appBarProps.onLeftIconButtonTouchTap = this.handleGoBack.bind(this);
+            appBarProps.showMenuIconButton = true;
         }
 
         return(
@@ -76,16 +81,7 @@ export default class AppBarComponent extends Component {
                     {...appBarProps}
                     title={this.state.title}
                 />
-                <Drawer
-                    docked={false}
-                    width={300}
-                    open={this.state.openDrawer}
-                    onRequestChange={this.setDrawerState.bind(this)}
-                >
-                    <Link to="organization"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Organização</MenuItem></Link>
-                    <Link to="congregation"><MenuItem onTouchTap={this.closeDrawer.bind(this)}>Congregação</MenuItem></Link>
-                </Drawer>
-                {this.props.children}
+                {renderDashboard}
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { Router, Route, hashHistory } from 'react-router';
+import Dashboard from './dashboard';
 import AppBar from '../appBar';
 import Congregation from '../congregation/congregation';
 import Grid from '../grid/grid';
@@ -37,15 +38,19 @@ export default class Routers extends Component {
     }
 
     handleRoutersOnEnter(router) {
-        let title = router.location.state ? router.location.state.titleAppBar : router.location.state;
-        AppBarActions.changeTitleAppBar(title);
+        let title = router.location.state ? router.location.state.titleAppBar : router.location.state,
+            showGoBack = router.location.state ? router.location.state.showGoBack : router.location.state;
+        AppBarActions.changeTitleAppBar(title, showGoBack);
     }
 
     render() {
         return(
             <Router history={hashHistory} >
-                <Route path="/" component={AppBar}>
-                    <Route path="organization" component={Organization}></Route>
+                <Route path="/" component={AppBar} >
+                    <Route path="organization"
+                        onEnter={this.handleRoutersOnEnter.bind(this)}
+                        component={Organization}>
+                    </Route>
                     <Route path="congregation"
                         onEnter={this.handleRoutersOnEnter.bind(this)}
                         component={Congregation}>
@@ -58,7 +63,10 @@ export default class Routers extends Component {
                         onEnter={this.handleRoutersOnEnter.bind(this)}
                         component={Cell}>
                     </Route>
-                    <Route path="users" component={User}></Route>
+                    <Route path="users"
+                        onEnter={this.handleRoutersOnEnter.bind(this)}
+                        component={User}>
+                    </Route>
                 </Route>
                 <Route path="/login"
                         component={Login}>

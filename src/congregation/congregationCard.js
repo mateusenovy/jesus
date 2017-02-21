@@ -53,7 +53,7 @@ export default class CongregationList extends Component {
             currentCongregation = this.getCongregationByIndex(id);
         this.setState({
             'showAlertRemove': true,
-            'currentCongregation': currentCongregation 
+            'currentCongregation': currentCongregation
         });
 
         this.stopPropagation(event);
@@ -68,7 +68,7 @@ export default class CongregationList extends Component {
     editRegister(event) {
         let id = event.currentTarget.id,
             currentCongregation = this.getCongregationByIndex(id);
-        
+
         this.props.handleOnClickNew('new', currentCongregation);
         this.stopPropagation(event);
     }
@@ -82,13 +82,13 @@ export default class CongregationList extends Component {
         let cards,
             removeIcon = <ContentRemove color={'#740000'} />,
             editIcon = <ContentEdit />;
-            
+
         cards =
             <GridList cols={1} padding={10} cellHeight={'auto'} >
                 {this.state.congregations.map( (row, index) =>
                     <Card key={index} >
                         <Link to={{
-                                pathname: `grid/${row.id}`, 
+                                pathname: `grid/${row.id}`,
                                 state: { titleAppBar: row.name } 
                             }}
                             style={{ textDecoration: 'none' }} >
