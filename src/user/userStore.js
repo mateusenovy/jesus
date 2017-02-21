@@ -24,11 +24,8 @@ class UserStore extends EventEmitter {
             'disciplinarian': disciplinarian
         },
             currentUser = LoginStore.getCurrentUser();
-        debugger;
+
         LoginStore.createUserLogin(name, password).then(function(user) {
-            debugger;
-            // console.log(currentUser);
-            LoginStore.signInWithToken(currentUser.j);
             newUser.userId = user.uid;
             db.push(newUser)
                 .then(function(newUserRes) {

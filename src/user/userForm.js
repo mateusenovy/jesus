@@ -81,6 +81,22 @@ export default class UserComponent extends Component {
     }
 
     render() {
+        let showPass = !!this.state.currentUser.isNew;
+
+        let passField = showPass ?
+            <FormsyText
+                name="password"
+                hintText="Senha"
+                floatingLabelText="Senha"
+                required
+                validations={{"isWords": true, "isOnlySpace": true}}
+                validationError="Campo inválido"
+                requiredError="Campo obrigatório"
+                value={this.state.currentUser.password}
+                style={{width: '100%'}}
+            />
+            : <div></div>
+
         return(
             <div>
                     <Formsy.Form
@@ -100,23 +116,13 @@ export default class UserComponent extends Component {
                             value={this.state.currentUser.name}
                             style={{width: '100%'}}
                         />
-                        <FormsyText
-                            name="password"
-                            hintText="Senha"
-                            floatingLabelText="Senha"
-                            required
-                            validations={{"isWords": true, "isOnlySpace": true}}
-                            validationError="Campo inválido"
-                            requiredError="Campo obrigatório"
-                            value={this.state.currentUser.password}
-                            style={{width: '100%'}}
-                        />
+                        {passField}
                         <FormsyText
                             name="birth"
                             hintText="Nascimento"
                             floatingLabelText="Nascimento"
                             required
-                            validations={{"isWords": true, "isOnlySpace": true}}
+                            validations={{"isOnlySpace": true}}
                             validationError="Campo inválido"
                             requiredError="Campo obrigatório"
                             value={this.state.currentUser.birth}

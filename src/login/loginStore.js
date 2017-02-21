@@ -11,7 +11,6 @@ class LoginStore extends EventEmitter {
 
     checkUserIsSigned() {
         let user = this.getCurrentUser();
-        debugger;
         let screen = !!user ? null : 'login';
 
         this.emit(C.CHANGE_SCREEN, screen);
@@ -21,7 +20,7 @@ class LoginStore extends EventEmitter {
         let email = userName + '@treis.com.br';
 
         auth().signInWithEmailAndPassword(email, password)
-            .then(function() {
+            .then(function(user) {
                 this.emit(C.CHANGE_SCREEN);
             }.bind(this))
             .catch(function(error) {
@@ -32,25 +31,8 @@ class LoginStore extends EventEmitter {
                 this.emit(C.SHOW_MESSAGE_LOGIN, message);
             }.bind(this));
     }
-
-    signInWithToken(token) {
-        auth().signInWithCustomToken(token)
-            .then(function() {
-                console.log('opa');
-            })
-            .catch(function() {
-                console.log('error');
-            });
-    }
-
-    reauthenticate(currentUser) {
-        debugger;
-        let credential;
-        currentUser.reauthenticate();
-    }
-
+    
     createUserLogin(userName, password) {
-        debugger;
         let email = userName + '@treis.com.br';
         return auth().createUserWithEmailAndPassword(email, password)
             .catch(function(error) {
