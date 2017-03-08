@@ -1,6 +1,6 @@
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('one');
+import { getOrganizationDbByUser as db } from '../app/firebase';
 
 export function createCell(congregationId, gridId, name, address, responsible) {
     dispatcher.dispatch({
@@ -40,7 +40,7 @@ export function findCell(filter) {
 }
 
 export function findCellOnce(congregationId, gridId) {
-    db.once('value', function(res) {
+    db().once('value', function(res) {
         var congregations = res.val() || {};
         dispatcher.dispatch({
             type: C.ACTION_RELOAD_CELL,

@@ -1,6 +1,6 @@
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('one');
+import { getOrganizationDbByUser as db } from '../app/firebase';
 
 export function createCongregation(name, cnpj, address, responsible) {
     dispatcher.dispatch({
@@ -38,7 +38,7 @@ export function findCongregation(filter) {
 }
 
 export function findCongregationOnce() {
-    db.once('value', function(res) {
+    db().once('value', function(res) {
         var congregations = res.val() || {};
         dispatcher.dispatch({
             type: C.ACTION_RELOAD_CONGR,

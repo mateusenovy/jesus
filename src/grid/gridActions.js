@@ -1,6 +1,6 @@
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('one');
+import { getOrganizationDbByUser as db } from '../app/firebase';
 
 export function createGrid(congregationId, name, color, responsible) {
     dispatcher.dispatch({
@@ -39,7 +39,7 @@ export function findGrid(filter) {
 }
 
 export function findGridOnce(congregationId) {
-    db.once('value', function(res) {
+    db().once('value', function(res) {
         var congregations = res.val() || {};
         dispatcher.dispatch({
             type: C.ACTION_RELOAD_GRID,

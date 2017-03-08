@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('one');
+import { getOrganizationDbByUser as db } from '../app/firebase';
 
 class GridStore extends EventEmitter {
 
@@ -18,7 +18,7 @@ class GridStore extends EventEmitter {
             'responsible': responsible
         };
         
-        return db.child(congregationId).child('grids').push(newGrid)
+        db().child(congregationId).child('grids').push(newGrid)
             .then(function(newGridRes) {
                 newGrid.id = newGridRes.key;
                 this.grids.push(newGrid);
@@ -34,7 +34,7 @@ class GridStore extends EventEmitter {
             'responsible': responsible
         };
 
-        db.child(congregationId).child('grids').child(id).update(newGrid).then(function(newGridRes) {
+        db().child(congregationId).child('grids').child(id).update(newGrid).then(function(newGridRes) {
             var oldCongr = this.grids.find(function(congr, index) {
                 return congr.id === id
             });
@@ -44,7 +44,7 @@ class GridStore extends EventEmitter {
     }
 
     deleteGrid(congregationId, id) {
-        db.child(congregationId).child('grids').child(id).remove().then(function() {
+        db().child(congregationId).child('grids').child(id).remove().then(function() {
             var newGrids = this.grids.filter(function(congr) {
                 return congr.id !== id
             });

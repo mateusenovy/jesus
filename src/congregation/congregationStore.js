@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('one');
+import { getOrganizationDbByUser as db } from '../app/firebase';
 
 class CongregationStore extends EventEmitter {
 
@@ -19,7 +19,7 @@ class CongregationStore extends EventEmitter {
             'responsible': responsible
         };
 
-        return db.push(newCongregation)
+        return db().push(newCongregation)
             .then(function(newCongregationRes) {
                 newCongregation.id = newCongregationRes.key;
                 this.congregations.push(newCongregation);
@@ -36,7 +36,7 @@ class CongregationStore extends EventEmitter {
             'responsible': responsible
         };
 
-        db.child(id).update(newCongregation).then(function(newCongregationRes) {
+        db().child(id).update(newCongregation).then(function(newCongregationRes) {
             var oldCongr = this.congregations.find(function(congr, index) {
                 return congr.id === id
             });
@@ -46,7 +46,7 @@ class CongregationStore extends EventEmitter {
     }
 
     deleteCongregation(id) {
-        db.child(id).remove().then(function() {
+        db().child(id).remove().then(function() {
             var newCongregations = this.congregations.filter(function(congr) {
                 return congr.id !== id
             });

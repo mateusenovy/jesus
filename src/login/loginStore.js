@@ -25,7 +25,7 @@ class LoginStore extends EventEmitter {
             }.bind(this))
             .catch(function(error) {
                 let message = null;
-                if (error.code === 'auth/user-not-found') {
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
                     message = 'Usuário ou senha inválidos.';
                 }
                 this.emit(C.SHOW_MESSAGE_LOGIN, message);

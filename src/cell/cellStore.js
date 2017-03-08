@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('one');
+import { getOrganizationDbByUser as db } from '../app/firebase';
 
 class CellStore extends EventEmitter {
 
@@ -18,7 +18,7 @@ class CellStore extends EventEmitter {
             'responsible': responsible
         };
 
-        db.child(congregationId).child('grids').child(gridId).child('cells').push(newCell)
+        db().child(congregationId).child('grids').child(gridId).child('cells').push(newCell)
             .then(function(newCellRes) {
                 newCell.id = newCellRes.key;
                 this.cells.push(newCell);
@@ -35,7 +35,7 @@ class CellStore extends EventEmitter {
             'responsible': responsible
         };
 
-        db.child(congregationId).child('grids').child(gridId).child('cells').child(cellId).update(newCell).then(function(newCellRes) {
+        db().child(congregationId).child('grids').child(gridId).child('cells').child(cellId).update(newCell).then(function(newCellRes) {
             var oldCongr = this.cells.find(function(congr, index) {
                 return congr.id === cellId
             });
@@ -45,7 +45,7 @@ class CellStore extends EventEmitter {
     }
 
     deleteCell(congregationId, gridId, cellId) {
-        db.child(congregationId).child('grids').child(gridId).child('cells').child(cellId).remove().then(function() {
+        db().child(congregationId).child('grids').child(gridId).child('cells').child(cellId).remove().then(function() {
             var newCells = this.cells.filter(function(congr) {
                 return congr.id !== cellId
             });

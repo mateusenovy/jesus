@@ -13,27 +13,15 @@ class UserStore extends EventEmitter {
     }
 
     createUser(name, password, birth, rg, address, situation, cell, disciplinarian) {
-        let newUser = {
-            'name': name,
-            'password': password,
-            'birth': birth,
-            'rg': rg,
-            'address': address,
-            'situation': situation,
-            'cell': cell,
-            'disciplinarian': disciplinarian
-        };
-
         LoginStore.createUserLogin(name, password).then(function(user) {
-            newUser.userId = user.uid;
-            db.push(newUser)
-                .then(function(newUserRes) {
-                    newUser.id = newUserRes.key;
-                    this.users.push(newUser);
-                    this.emit(C.USER_CHANGE_LIST);
-                }.bind(this)
-            );
-        }.bind(this));
+            user.providerData[0].birth = birth;
+            user.providerData[0].rg = rg;
+            user.providerData[0].address = address;
+            user.providerData[0].situation = situation;
+            user.providerData[0].cell = cell;
+            user.providerData[0].disciplinarian = disciplinarian;
+            user.providerData[0].organizationName = 'pah';
+        });
     }
 
     updateUser(id, name, birth, rg, address, situation, cell, disciplinarian) {
