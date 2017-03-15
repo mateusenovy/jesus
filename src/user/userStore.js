@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('users');
 import LoginStore from '../login/loginStore';
+var db = require('../app/firebase').getOrganizationDb('users');
 
 class UserStore extends EventEmitter {
 
@@ -10,18 +10,35 @@ class UserStore extends EventEmitter {
         super();
 
         this.users = [];
+        this.currentUser = {};
     }
 
-    createUser(name, password, birth, rg, address, situation, cell, disciplinarian) {
+    createUser(name, password, birth, rg, address, situation, cell, disciplinarian, organization) {
+        
+        organization = !organization ? this.currentUser.organizationName : organization;
+        debugger;
+        let newUser = {
+            'name': name,
+            'birth': birth,
+            'rg': rg,
+            'address': address,
+            'situation': situation,
+            'cell': cell,
+            'disciplinarian': disciplinarian,
+            'organizationName': organization || 'default'
+        };
+
         LoginStore.createUserLogin(name, password).then(function(user) {
-            user.providerData[0].birth = birth;
-            user.providerData[0].rg = rg;
-            user.providerData[0].address = address;
-            user.providerData[0].situation = situation;
-            user.providerData[0].cell = cell;
-            user.providerData[0].disciplinarian = disciplinarian;
-            user.providerData[0].organizationName = 'pah';
-        });
+            newUser.uid = user.uid;
+
+            db.push(newUser)
+                .then(function(newUserRes) {
+                    newUser.id = newUserRes.key;
+                    this.users.push(newUser);
+                    this.emit(C.USER_CHANGE_LIST);
+                }.bind(this)
+            );
+        }.bind(this));
     }
 
     updateUser(id, name, birth, rg, address, situation, cell, disciplinarian) {
@@ -36,7 +53,7 @@ class UserStore extends EventEmitter {
         };
 
         db.child(id).update(newUser).then(function(newUserRes) {
-            var oldUser = this.users.find(function(user, index) {
+            let oldUser = this.users.find(function(user, index) {
                 return user.id === id
             });
             Object.assign(oldUser, newUser);
@@ -46,7 +63,7 @@ class UserStore extends EventEmitter {
 
     deleteUser(id) {
         db.child(id).remove().then(function() {
-            var newUsers = this.users.filter(function(user) {
+            let newUsers = this.users.filter(function(user) {
                 return user.id !== id
             });
             this.users = newUsers;
@@ -55,7 +72,8 @@ class UserStore extends EventEmitter {
     }
 
     reloadUser(users) {
-        var keys = Object.keys(users),
+        debugger;
+        let keys = Object.keys(users),
             newUsers = [];
         keys.forEach(function(value, index) {
             users[value].id = value;
@@ -67,7 +85,20 @@ class UserStore extends EventEmitter {
     }
 
     findUser() {
+        this.findUserByUserId();
         return this.users;
+    }
+
+    findUserByUserId(uid) {
+        uid = uid || 'c0WYupwhprUMNg6CB2NFEvedNR22';
+        //'c0WYupwhprUMNg6CB2NFEvedNR22'
+        db.orderByChild('uid').equalTo(uid).once('value', function(t) {
+            console.log(t.val());
+        });
+    }
+
+    setCurrentUser(user) {
+        this.currentUser = user;
     }
 
     handleActions(action) {

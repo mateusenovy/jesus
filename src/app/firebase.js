@@ -13,9 +13,9 @@ export const getOrganizationDb = function(organizationDbName) {
 };
 
 export const getOrganizationDbByUser = function() {
-	if (!!loginStore.getCurrentUser()) {
-		let dbName =  loginStore.getCurrentUser().providerData[0].organizationName || 'default';
-    	return database().ref(dbName);
-	}
-	return database().ref('default');
+    if (!!loginStore.getCurrentUser()) {
+        let dbName =  loginStore.getUsersOrganization() || 'default';
+        return database().ref(dbName);
+    }
+    return database().ref('default');
 };

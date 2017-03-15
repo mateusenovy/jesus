@@ -9,6 +9,12 @@ class LoginStore extends EventEmitter {
         return auth().currentUser;
     }
 
+    getUsersOrganization() {
+        debugger;
+        let currentUser = this.getCurrentUser();
+        return currentUser.providerData[0].organizationName || 'pah';
+    }
+
     checkUserIsSigned() {
         let user = this.getCurrentUser();
         let screen = !!user ? null : 'login';
