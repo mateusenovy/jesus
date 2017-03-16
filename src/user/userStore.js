@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-import LoginStore from '../login/loginStore';
-var db = require('../app/firebase').getOrganizationDb('users');
+import { users as db, fbAuth } from '../app/firebase';
+//var db = require('../app/firebase').getOrganizationDb('users');
 
 class UserStore extends EventEmitter {
 
@@ -11,6 +11,25 @@ class UserStore extends EventEmitter {
 
         this.users = [];
         this.currentUser = {};
+    }
+
+    addKeyObjectIntoArray(objects) {
+        let keys = Object.keys(objects),
+            newArray = [];
+        keys.forEach(function(value, index) {
+            objects[value].id = value;
+            newArray.push(objects[value]);
+        });
+        return newArray;
+    }
+
+    createUserLogin(userName, password) {
+        let email = userName + '@treis.com.br';
+        return fbAuth().createUserWithEmailAndPassword(email, password)
+            .catch(function(error) {
+                console.error(error.message);
+            }
+        );
     }
 
     createUser(name, password, birth, rg, address, situation, cell, disciplinarian, organization) {
@@ -28,7 +47,7 @@ class UserStore extends EventEmitter {
             'organizationName': organization || 'default'
         };
 
-        LoginStore.createUserLogin(name, password).then(function(user) {
+        this.createUserLogin(name, password).then(function(user) {
             newUser.uid = user.uid;
 
             db.push(newUser)
@@ -73,28 +92,25 @@ class UserStore extends EventEmitter {
 
     reloadUser(users) {
         debugger;
-        let keys = Object.keys(users),
-            newUsers = [];
-        keys.forEach(function(value, index) {
-            users[value].id = value;
-            newUsers.push(users[value]);
-        });
+        let newUsers = this.addKeyObjectIntoArray(users);
 
         this.users = newUsers;
         return this.users;
     }
 
     findUser() {
-        this.findUserByUserId();
         return this.users;
     }
 
-    findUserByUserId(uid) {
+    setCurrentUserByUserId(uid) {
         uid = uid || 'c0WYupwhprUMNg6CB2NFEvedNR22';
         //'c0WYupwhprUMNg6CB2NFEvedNR22'
-        db.orderByChild('uid').equalTo(uid).once('value', function(t) {
-            console.log(t.val());
-        });
+        db.orderByChild('uid').equalTo(uid).once('value', function(resp) {
+            let user = resp.val(),
+                currentUser = this.addKeyObjectIntoArray(user);
+            debugger;
+            this.setCurrentUser(currentUser[0]);
+        }.bind(this));
     }
 
     setCurrentUser(user) {

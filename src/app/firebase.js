@@ -1,4 +1,4 @@
-import { initializeApp, database } from 'firebase';
+import { initializeApp, database, auth } from 'firebase';
 import firebaseConfig from '../constants/firebase';
 import loginStore from '../login/loginStore';
 
@@ -6,7 +6,7 @@ initializeApp(firebaseConfig);
 
 const organization = database().ref('organization');
 
-export default organization;
+export const users = database().ref('users');
 
 export const getOrganizationDb = function(organizationDbName) {
     return database().ref(organizationDbName);
@@ -19,3 +19,7 @@ export const getOrganizationDbByUser = function() {
     }
     return database().ref('default');
 };
+
+export const fbAuth = auth;
+
+export default organization;

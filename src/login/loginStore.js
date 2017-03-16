@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import { auth } from 'firebase';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
+import UserStore from '../user/userStore';
 
 class LoginStore extends EventEmitter {
 
@@ -12,7 +13,7 @@ class LoginStore extends EventEmitter {
     getUsersOrganization() {
         debugger;
         let currentUser = this.getCurrentUser();
-        return currentUser.providerData[0].organizationName || 'pah';
+        return UserStore.setCurrentUserByUserId(currentUser.uid);
     }
 
     checkUserIsSigned() {
@@ -36,15 +37,6 @@ class LoginStore extends EventEmitter {
                 }
                 this.emit(C.SHOW_MESSAGE_LOGIN, message);
             }.bind(this));
-    }
-    
-    createUserLogin(userName, password) {
-        let email = userName + '@treis.com.br';
-        return auth().createUserWithEmailAndPassword(email, password)
-            .catch(function(error) {
-                console.error(error.message);
-            }
-        );
     }
 
     handleActions(action) {

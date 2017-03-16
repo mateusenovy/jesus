@@ -1,6 +1,6 @@
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
-var db = require('../app/firebase').getOrganizationDb('users');
+import { users as db } from '../app/firebase';
 
 export function createUser(name, password, birth, rg, address, situation, cell, disciplinarian) {
     dispatcher.dispatch({
