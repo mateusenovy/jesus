@@ -33,7 +33,7 @@ class UserStore extends EventEmitter {
     }
 
     createUser(name, password, birth, rg, address, situation, cell, disciplinarian, organization) {
-        
+
         organization = !organization ? this.currentUser.organizationName : organization;
         debugger;
         let newUser = {
@@ -91,7 +91,6 @@ class UserStore extends EventEmitter {
     }
 
     reloadUser(users) {
-        debugger;
         let newUsers = this.addKeyObjectIntoArray(users);
 
         this.users = newUsers;
@@ -103,18 +102,19 @@ class UserStore extends EventEmitter {
     }
 
     setCurrentUserByUserId(uid) {
-        uid = uid || 'c0WYupwhprUMNg6CB2NFEvedNR22';
-        //'c0WYupwhprUMNg6CB2NFEvedNR22'
         db.orderByChild('uid').equalTo(uid).once('value', function(resp) {
             let user = resp.val(),
                 currentUser = this.addKeyObjectIntoArray(user);
-            debugger;
             this.setCurrentUser(currentUser[0]);
         }.bind(this));
     }
 
     setCurrentUser(user) {
         this.currentUser = user;
+    }
+
+    getCurrentUser(user) {
+        return this.currentUser;
     }
 
     handleActions(action) {

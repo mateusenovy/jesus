@@ -10,10 +10,9 @@ class LoginStore extends EventEmitter {
         return auth().currentUser;
     }
 
-    getUsersOrganization() {
-        debugger;
-        let currentUser = this.getCurrentUser();
-        return UserStore.setCurrentUserByUserId(currentUser.uid);
+    getUserOrganizationName() {
+        let currentUser = UserStore.getCurrentUser();
+        return currentUser.organizationName;
     }
 
     checkUserIsSigned() {
@@ -28,6 +27,7 @@ class LoginStore extends EventEmitter {
 
         auth().signInWithEmailAndPassword(email, password)
             .then(function(user) {
+                UserStore.setCurrentUserByUserId(user.uid);
                 this.emit(C.CHANGE_SCREEN);
             }.bind(this))
             .catch(function(error) {

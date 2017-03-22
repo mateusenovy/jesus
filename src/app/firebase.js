@@ -1,6 +1,6 @@
 import { initializeApp, database, auth } from 'firebase';
 import firebaseConfig from '../constants/firebase';
-import loginStore from '../login/loginStore';
+import LoginStore from '../login/loginStore';
 
 initializeApp(firebaseConfig);
 
@@ -13,8 +13,8 @@ export const getOrganizationDb = function(organizationDbName) {
 };
 
 export const getOrganizationDbByUser = function() {
-    if (!!loginStore.getCurrentUser()) {
-        let dbName =  loginStore.getUsersOrganization() || 'default';
+    if (!!LoginStore.getCurrentUser()) {
+        let dbName =  LoginStore.getUserOrganizationName() || 'default';
         return database().ref(dbName);
     }
     return database().ref('default');
