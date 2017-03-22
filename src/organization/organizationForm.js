@@ -62,7 +62,7 @@ export default class OrganizationComponent extends Component {
             isNew = this.state.currentOrganization.isNew;
 
         if (this.state.validForm) {
-            isNew ? 
+            isNew ?
                 OrganizationActions.createOrg(name, description) :
                 OrganizationActions.editOrg(this.state.currentOrganization.id, name, description);
         }
@@ -80,7 +80,6 @@ export default class OrganizationComponent extends Component {
                     >
                         <FormsyText
                             name="name"
-                            hintText="Nome"
                             floatingLabelText="Nome"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
@@ -91,7 +90,6 @@ export default class OrganizationComponent extends Component {
                         />
                         <FormsyText
                             name="description"
-                            hintText="Descrição"
                             floatingLabelText="Descrição"
                             required
                             validations={{"isOnlySpace": true}}

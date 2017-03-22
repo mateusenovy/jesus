@@ -65,7 +65,7 @@ export default class GridComponent extends Component {
             isNew = this.state.currentGrid.isNew;
 
         if (this.state.validForm) {
-            isNew ? 
+            isNew ?
                 GridActions.createGrid(congregationId, name, color, responsible) :
                 GridActions.editGrid(this.state.currentGrid.id, congregationId, name, color, responsible);
         }
@@ -82,7 +82,6 @@ export default class GridComponent extends Component {
                     >
                         <FormsyText
                             name="name"
-                            hintText="Nome"
                             floatingLabelText="Nome"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
@@ -93,7 +92,6 @@ export default class GridComponent extends Component {
                         />
                         <FormsyText
                             name="color"
-                            hintText="Cor"
                             floatingLabelText="Color"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
@@ -104,8 +102,7 @@ export default class GridComponent extends Component {
                         />
                         <FormsyText
                             name="responsible"
-                            hintText="Responsável"
-                            floatingLabelText="Responsible"
+                            floatingLabelText="Responsável"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
                             validationError="Campo inválido"

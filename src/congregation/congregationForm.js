@@ -72,8 +72,8 @@ export default class CongregationComponent extends Component {
             isNew = this.state.currentCongregation.isNew;
 
         if (this.state.validForm) {
-            isNew ? 
-                CongregationActions.createCongregation(name, cnpj, address, responsible) : 
+            isNew ?
+                CongregationActions.createCongregation(name, cnpj, address, responsible) :
                 CongregationActions.editCongregation(id, name, cnpj, address, responsible);
         }
 
@@ -90,7 +90,6 @@ export default class CongregationComponent extends Component {
                     >
                         <FormsyText
                             name="name"
-                            hintText="Nome"
                             floatingLabelText="Nome"
                             required
                             validations={{"isWords": true, "isOnlySpace": true }}
@@ -101,7 +100,6 @@ export default class CongregationComponent extends Component {
                         />
                         <FormsyText
                             name="cnpj"
-                            hintText="CNPJ"
                             floatingLabelText="CNPJ"
                             required
                             validations={{"isCnpj": true}}
@@ -112,7 +110,6 @@ export default class CongregationComponent extends Component {
                         />
                         <FormsyText
                             name="address"
-                            hintText="Endereço"
                             floatingLabelText="Endereço"
                             required
                             validations={{"isOnlySpace": true}}
@@ -123,8 +120,7 @@ export default class CongregationComponent extends Component {
                         />
                         <FormsyText
                             name="responsible"
-                            hintText="Responsável"
-                            floatingLabelText="Responsible"
+                            floatingLabelText="Responsável"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
                             validationError="Campo inválido"

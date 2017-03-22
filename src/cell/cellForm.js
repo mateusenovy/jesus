@@ -84,7 +84,6 @@ export default class CellComponent extends Component {
                     >
                         <FormsyText
                             name="name"
-                            hintText="Nome"
                             floatingLabelText="Nome"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
@@ -95,7 +94,6 @@ export default class CellComponent extends Component {
                         />
                         <FormsyText
                             name="address"
-                            hintText="Endereço"
                             floatingLabelText="Endereço"
                             required
                             validations={{"isOnlySpace": true}}
@@ -106,7 +104,6 @@ export default class CellComponent extends Component {
                         />
                         <FormsyText
                             name="responsible"
-                            hintText="Responsável"
                             floatingLabelText="Responsible"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}

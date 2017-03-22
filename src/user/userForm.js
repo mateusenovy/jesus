@@ -86,7 +86,6 @@ export default class UserComponent extends Component {
         let passField = showPass ?
             <FormsyText
                 name="password"
-                hintText="Senha"
                 floatingLabelText="Senha"
                 type="password"
                 required
@@ -108,7 +107,6 @@ export default class UserComponent extends Component {
                     >
                         <FormsyText
                             name="name"
-                            hintText="Nome"
                             floatingLabelText="Nome"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
@@ -120,7 +118,6 @@ export default class UserComponent extends Component {
                         {passField}
                         <FormsyText
                             name="birth"
-                            hintText="Nascimento"
                             floatingLabelText="Nascimento"
                             required
                             validations={{"isOnlySpace": true}}
@@ -131,7 +128,6 @@ export default class UserComponent extends Component {
                         />
                         <FormsyText
                             name="rg"
-                            hintText="RG"
                             floatingLabelText="RG"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
@@ -142,7 +138,6 @@ export default class UserComponent extends Component {
                         />
                         <FormsyText
                             name="address"
-                            hintText="Endereço"
                             floatingLabelText="Endereço"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
@@ -153,7 +148,6 @@ export default class UserComponent extends Component {
                         />
                         <FormsyText
                             name="situation"
-                            hintText="Situação"
                             floatingLabelText="Situação"
                             required
                             validations={{"isWords": true, "isOnlySpace": true}}
@@ -164,7 +158,6 @@ export default class UserComponent extends Component {
                         />
                         <FormsyText
                             name="cell"
-                            hintText="Célula"
                             floatingLabelText="Célula"
                             required
                             validations={{"isOnlySpace": true}}
@@ -175,7 +168,6 @@ export default class UserComponent extends Component {
                         />
                         <FormsyText
                             name="disciplinarian"
-                            hintText="Discipulador"
                             floatingLabelText="Discipulador"
                             required
                             validations={{"isOnlySpace": true}}

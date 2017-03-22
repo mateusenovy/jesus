@@ -62,7 +62,6 @@ export default class Login extends Component {
                 >
                     <FormsyText
                         name="userName"
-                        hintText="Usuário"
                         floatingLabelText="Usuário"
                         required
                         validations={{"isWords": true, "isOnlySpace": true}}
@@ -73,7 +72,6 @@ export default class Login extends Component {
                     />
                     <FormsyText
                         name="password"
-                        hintText="Senha"
                         floatingLabelText="Senha"
                         type="password"
                         required
