@@ -2,7 +2,6 @@ import { EventEmitter } from 'events';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
 import { users as db, fbAuth } from '../app/firebase';
-//var db = require('../app/firebase').getOrganizationDb('users');
 
 class UserStore extends EventEmitter {
 

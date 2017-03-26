@@ -102,9 +102,6 @@ export default class UserList extends Component {
                             <FlatButton name="edit" id={index} icon={editIcon}
                                 onClick={this.editRegister.bind(this)}
                             />
-                            <FlatButton name="remove" id={index} icon={removeIcon}
-                                onClick={this.openAlertRemove.bind(this)}
-                            />
                         </CardActions>
                     </Card>
                 )}
