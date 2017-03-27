@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
+import FieldColor from '../components/fieldColor';
 import GridFloatButton from './gridFloatButton';
 import * as GridActions from './gridActions';
 import C from '../constants';
@@ -70,6 +71,9 @@ export default class GridComponent extends Component {
                 GridActions.editGrid(this.state.currentGrid.id, congregationId, name, color, responsible);
         }
     }
+    a() {
+        debugger;
+    }
 
     render() {
         return(
@@ -90,11 +94,13 @@ export default class GridComponent extends Component {
                             value={this.state.currentGrid.name}
                             style={{width: '100%'}}
                         />
-                        <FormsyText
+                        <FieldColor
                             name="color"
                             floatingLabelText="Color"
                             required
-                            validations={{"isWords": true, "isOnlySpace": true}}
+                            type="color"
+                            onChange={this.a.bind(this)}
+                            validations={{"isOnlySpace": true}}
                             validationError="Campo inválido"
                             requiredError="Campo obrigatório"
                             value={this.state.currentGrid.color}

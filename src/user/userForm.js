@@ -89,7 +89,7 @@ export default class UserComponent extends Component {
                 floatingLabelText="Senha"
                 type="password"
                 required
-                validations={{"isWords": true, "isOnlySpace": true}}
+                validations={{"isOnlySpace": true}}
                 validationError="Campo inválido"
                 requiredError="Campo obrigatório"
                 value={this.state.currentUser.password}

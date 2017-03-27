@@ -16,7 +16,7 @@ export default class AppBarComponent extends Component {
                 "title": "Congregação",
                 "link": "congregation"
             }, {
-                "title": "Usuários",
+                "title": "Parceiro do Reino",
                 "link": "users"
             }]
         }
