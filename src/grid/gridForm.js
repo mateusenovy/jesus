@@ -71,7 +71,8 @@ export default class GridComponent extends Component {
                 GridActions.editGrid(this.state.currentGrid.id, congregationId, name, color, responsible);
         }
     }
-    a() {
+
+    a(event, value) {
         debugger;
     }
 
@@ -96,9 +97,7 @@ export default class GridComponent extends Component {
                         />
                         <FieldColor
                             name="color"
-                            floatingLabelText="Color"
                             required
-                            type="color"
                             onChange={this.a.bind(this)}
                             validations={{"isOnlySpace": true}}
                             validationError="Campo inválido"

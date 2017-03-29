@@ -34,7 +34,7 @@ class UserStore extends EventEmitter {
     createUser(name, password, birth, rg, address, situation, cell, disciplinarian, organization) {
 
         organization = !organization ? this.currentUser.organizationName : organization;
-        debugger;
+        
         let newUser = {
             'name': name,
             'birth': birth,
