@@ -28,11 +28,13 @@ class FieldColor extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this.props.value);
-        this.setState({
-            color: this.props.value || '#FFF'
-        });
+    componentWillReceiveProps(newProps) {
+        const isChanged = newProps.value !== this.props.value;
+        if (isChanged) {
+            this.setState({
+                color: newProps.value || '#FFF'
+            });
+        }
     }
 
     handleButtonOnClick() {
@@ -61,7 +63,7 @@ class FieldColor extends Component {
                 <div style={ styles.overlap } onClick={this.handleClickClosePicker.bind(this) } />
                 <ChromePicker
                     disableAlpha={true}
-                    color={this.state.value}
+                    color={this.state.color}
                     onChange={this.handleChangeColor.bind(this)}
                 />
             </div> :
@@ -73,7 +75,7 @@ class FieldColor extends Component {
                     label="Cor"
                     fullWidth={true}
                     onClick={this.handleButtonOnClick.bind(this)}
-                    backgroundColor={this.state.value}
+                    backgroundColor={this.state.color}
                 />
                 {picker}
             </div>
@@ -91,10 +93,28 @@ const Field =  React.createClass({
         validationError: React.PropTypes.string,
         validationErrors: React.PropTypes.object,
         validations: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
-        value: React.PropTypes.object,
+        value: React.PropTypes.any,
     },
 
     mixins: [Formsy.Mixin],
+
+    getInitialState() {
+        return { value: this.props.value }
+    },
+
+    componentWillMount() {
+        this.setValue(this.props.value);
+    },
+
+    componentWillReceiveProps(newProps) {
+        const isChanged = newProps.value !== this.props.value;
+        if (isChanged) {
+            this.setState({ 
+                value: newProps.value 
+            });
+            this.setValue(newProps.value);
+        }
+    },
 
     handleChange(event, value) {
         this.setValue(value);
@@ -103,8 +123,8 @@ const Field =  React.createClass({
 
     render() {
         return (
-            <FieldColor 
-                value={this.props.value}
+            <FieldColor
+                value={this.state.value}
                 onChange={this.handleChange} 
             />
         );

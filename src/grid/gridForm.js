@@ -72,10 +72,6 @@ export default class GridComponent extends Component {
         }
     }
 
-    a(event, value) {
-        debugger;
-    }
-
     render() {
         return(
             <div>
@@ -98,7 +94,6 @@ export default class GridComponent extends Component {
                         <FieldColor
                             name="color"
                             required
-                            onChange={this.a.bind(this)}
                             validations={{"isOnlySpace": true}}
                             validationError="Campo inválido"
                             requiredError="Campo obrigatório"
