@@ -21,7 +21,7 @@ class FieldColor extends Component {
 
     constructor() {
         super();
-        
+
         this.state = {
             showPickerColor: false,
             color: '#FFF'
@@ -109,8 +109,8 @@ const Field =  React.createClass({
     componentWillReceiveProps(newProps) {
         const isChanged = newProps.value !== this.props.value;
         if (isChanged) {
-            this.setState({ 
-                value: newProps.value 
+            this.setState({
+                value: newProps.value
             });
             this.setValue(newProps.value);
         }
@@ -125,7 +125,7 @@ const Field =  React.createClass({
         return (
             <FieldColor
                 value={this.state.value}
-                onChange={this.handleChange} 
+                onChange={this.handleChange}
             />
         );
     }

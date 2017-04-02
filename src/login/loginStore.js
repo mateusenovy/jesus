@@ -3,6 +3,7 @@ import { auth } from 'firebase';
 import dispatcher from '../app/dispatcher';
 import C from '../constants';
 import UserStore from '../user/userStore';
+import { findUsersOnce } from '../user/userActions';
 
 class LoginStore extends EventEmitter {
 
@@ -27,7 +28,9 @@ class LoginStore extends EventEmitter {
 
         auth().signInWithEmailAndPassword(email, password)
             .then(function(user) {
-                UserStore.setCurrentUserByUserId(user.uid);
+                UserStore.setCurrentUserByUserId(user.uid).then(function() {
+                    findUsersOnce(true);
+                });
                 this.emit(C.CHANGE_SCREEN);
             }.bind(this))
             .catch(function(error) {

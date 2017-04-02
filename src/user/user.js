@@ -16,7 +16,7 @@ export default class UserComponent extends Component {
     }
 
     componentDidMount() {
-        UserActions.findUsersOnce();
+        UserActions.findUsersOnce(true);
     }
 
     handleClick(eventName, currentUser) {
