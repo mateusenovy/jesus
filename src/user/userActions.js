@@ -40,8 +40,9 @@ export function findUsersOnce(onlyCurrentOrganization = false) {
             users
         });
     };
-    
+    const orgName = UserStore.getCurrentUser().organizationName || null;
+
     onlyCurrentOrganization
-        ? db.orderByChild('organizationName').equalTo(UserStore.getCurrentUser().organizationName).once('value', resFindUsers)
+        ? db.orderByChild('organizationName').equalTo(orgName).once('value', resFindUsers)
         : db.once('value', resFindUsers);
 }

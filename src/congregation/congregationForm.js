@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 import Formsy from 'formsy-react';
-import { FormsyText } from 'formsy-material-ui/lib';
+import { FormsyText, FormsyAutoComplete } from 'formsy-material-ui/lib';
+import AutoComplete from 'material-ui/AutoComplete';
 import CongregationFloatButton from './congregationFloatButton';
 import * as CongregationActions from './congregationActions';
+import UserStore from './../user/userStore';
 import C from '../constants';
 
 export default class CongregationComponent extends Component {
@@ -19,8 +21,21 @@ export default class CongregationComponent extends Component {
                 cnpj: null,
                 address: null,
                 responsible: null
-            }
+            },
+            dataSourceUsers: []
         }
+    }
+
+    createDataSourceUsers() {
+        const users = UserStore.findUser();
+        let dataSourceUsers = users.map(function(user) {
+            return {
+                text: user.name || 'novy',
+                value: user.id
+            }
+        });
+
+        return dataSourceUsers;
     }
 
     componentDidMount() {
@@ -32,7 +47,8 @@ export default class CongregationComponent extends Component {
                 address: this.props.currentCongregation.address || null,
                 responsible: this.props.currentCongregation.responsible || null,
                 isNew: !this.props.currentCongregation.id
-            }
+            },
+            dataSourceUsers: this.createDataSourceUsers()
         });
     }
 
@@ -64,6 +80,7 @@ export default class CongregationComponent extends Component {
     }
 
     submitCongregation(form) {
+        debugger;
         let name = form.name.trim().toUpperCaseAllFirstWord(),
             cnpj = form.cnpj.trim(),
             address = form.address.trim(),
@@ -118,15 +135,18 @@ export default class CongregationComponent extends Component {
                             value={this.state.currentCongregation.address}
                             style={{width: '100%'}}
                         />
-                        <FormsyText
+                        <FormsyAutoComplete
                             name="responsible"
                             floatingLabelText="Responsável"
                             required
+                            filter={AutoComplete.noFilter}
                             validations={{"isWords": true, "isOnlySpace": true}}
                             validationError="Campo inválido"
                             requiredError="Campo obrigatório"
+                            dataSource={this.state.dataSourceUsers}
+                            openOnFocus={true}
                             value={this.state.currentCongregation.responsible}
-                            style={{width: '100%'}}
+                            fullWidth={true}
                         />
                         <CongregationFloatButton
                             showSaveAndCancel={true}
