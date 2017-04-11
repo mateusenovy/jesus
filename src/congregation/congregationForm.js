@@ -30,7 +30,7 @@ export default class CongregationComponent extends Component {
         const users = UserStore.findUser();
         let dataSourceUsers = users.map(function(user) {
             return {
-                text: user.name || 'novy',
+                text: user.name,
                 value: user.id
             }
         });
@@ -62,6 +62,8 @@ export default class CongregationComponent extends Component {
     }
 
     clickConfirmButton() {
+        debugger;
+        //create validation on autocomplet component
         this.refs.congregationForm.submit();
     }
 
@@ -139,13 +141,11 @@ export default class CongregationComponent extends Component {
                             name="responsible"
                             floatingLabelText="Responsável"
                             required
-                            filter={AutoComplete.noFilter}
-                            validations={{"isWords": true, "isOnlySpace": true}}
-                            validationError="Campo inválido"
-                            requiredError="Campo obrigatório"
+                            filter={AutoComplete.fuzzyFilter}
                             dataSource={this.state.dataSourceUsers}
                             openOnFocus={true}
-                            value={this.state.currentCongregation.responsible}
+                            maxSearchResults={5}
+                            searchText={this.state.currentCongregation.responsible}
                             fullWidth={true}
                         />
                         <CongregationFloatButton
